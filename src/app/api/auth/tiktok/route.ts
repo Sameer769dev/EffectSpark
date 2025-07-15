@@ -11,22 +11,23 @@ export async function GET() {
     secure: process.env.NODE_ENV === 'production',
   });
 
-  const
-    TIKTOK_CLIENT_KEY = process.env.TIKTOK_CLIENT_KEY;
-  const REDIRECT_URI = process.env.TIKTOK_REDIRECT_URI;
+  const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+  const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
 
-  if (!TIKTOK_CLIENT_KEY || !REDIRECT_URI) {
-    return NextResponse.json({ error: 'TikTok client key or redirect URI not configured.' }, { status: 500 });
+  if (!GOOGLE_CLIENT_ID || !REDIRECT_URI) {
+    return NextResponse.json({ error: 'Google client key or redirect URI not configured.' }, { status: 500 });
   }
 
-  let url = 'https://www.tiktok.com/v2/auth/authorize/';
+  let url = 'https://accounts.google.com/o/oauth2/v2/auth';
 
   const params = new URLSearchParams({
-    client_key: TIKTOK_CLIENT_KEY,
-    scope: 'user.info.basic',
-    response_type: 'code',
+    client_id: GOOGLE_CLIENT_ID,
     redirect_uri: REDIRECT_URI,
+    response_type: 'code',
+    scope: 'openid email profile',
     state: csrfState,
+    access_type: 'offline',
+    prompt: 'consent',
   });
 
   url += `?${params.toString()}`;

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -75,20 +74,20 @@ export default function CreateProfilePage() {
              setUser(data.user);
              form.setValue('displayName', data.user.display_name);
           } else {
-             router.push('/profile');
+             router.push('/login');
           }
         } else {
           // If we can't fetch profile, maybe session expired.
-          router.push('/profile');
+          router.push('/login');
         }
       } catch (error) {
         console.error('Failed to fetch user profile', error);
          toast({
             variant: 'destructive',
             title: 'Uh oh! Something went wrong.',
-            description: 'Could not fetch your TikTok profile. Please try logging in again.',
+            description: 'Could not fetch your Google profile. Please try logging in again.',
         });
-        router.push('/profile');
+        router.push('/login');
       } finally {
         setIsLoading(false);
       }

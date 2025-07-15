@@ -19,23 +19,23 @@ export async function GET(request: NextRequest) {
   // Clear the CSRF state cookie
   cookieStore.delete('csrfState');
 
-  const TIKTOK_CLIENT_KEY = process.env.TIKTOK_CLIENT_KEY;
-  const TIKTOK_CLIENT_SECRET = process.env.TIKTOK_CLIENT_SECRET;
-  const REDIRECT_URI = process.env.TIKTOK_REDIRECT_URI;
+  const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+  const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+  const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
 
-  if (!TIKTOK_CLIENT_KEY || !TIKTOK_CLIENT_SECRET || !REDIRECT_URI) {
-    console.error('TikTok app credentials or redirect URI not configured.');
-    return NextResponse.json({ error: 'TikTok app credentials or redirect URI not configured.' }, { status: 500 });
+  if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !REDIRECT_URI) {
+    console.error('Google app credentials or redirect URI not configured.');
+    return NextResponse.json({ error: 'Google app credentials or redirect URI not configured.' }, { status: 500 });
   }
 
   try {
-    const tokenUrl = 'https://open.tiktokapis.com/v2/oauth/token/';
+    const tokenUrl = 'https://oauth2.googleapis.com/token';
     const body = new URLSearchParams({
-        client_key: TIKTOK_CLIENT_KEY,
-        client_secret: TIKTOK_CLIENT_SECRET,
         code: code,
-        grant_type: 'authorization_code',
+        client_id: GOOGLE_CLIENT_ID,
+        client_secret: GOOGLE_CLIENT_SECRET,
         redirect_uri: REDIRECT_URI,
+        grant_type: 'authorization_code',
     });
     
     const response = await fetch(tokenUrl, {
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     const data = await response.json();
 
     if (!response.ok) {
-        console.error('TikTok API Error during token exchange:', data);
+        console.error('Google API Error during token exchange:', data);
         return NextResponse.json({ error: 'Failed to fetch access token', details: data }, { status: 500 });
     }
 
@@ -68,6 +68,4 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL(redirectUrl, request.url));
   } catch (error) {
     console.error('Error during token exchange:', error);
-    return NextResponse.json({ error: 'Internal server error during token exchange.' }, { status: 500 });
-  }
-}
+    return NextResponse.json({ error: 'Internal server error during token exchange.' }, { status: 500
