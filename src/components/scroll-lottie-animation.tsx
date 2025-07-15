@@ -39,7 +39,7 @@ export function ScrollLottieAnimation() {
         ref={ref}
         animationData={animationData}
         loop={false}
-        autoplay={false}
+        autoPlay={false}
         style={{ width: '100%', height: '100%' }}
       />
     </div>
