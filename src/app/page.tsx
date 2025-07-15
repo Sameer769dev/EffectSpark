@@ -118,7 +118,7 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative text-center py-20 md:py-32 overflow-hidden">
+        <section className="relative text-center min-h-screen flex items-center justify-center py-20 md:py-32 overflow-hidden">
           <div className="absolute inset-0 motion-safe:animate-background-pan bg-gradient-to-br from-background via-purple-900/10 to-teal-900/20 -z-10"></div>
           <div className="container relative">
             <h1 className="text-4xl md:text-6xl font-bold font-headline tracking-tight text-foreground">
@@ -166,10 +166,10 @@ export default function LandingPage() {
                 lifting.
               </p>
             </AnimatedDiv>
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
               <div className="space-y-8">
                 <AnimatedDiv style={{ animationDelay: '0.2s' }}>
-                  <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
+                  <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2 hover:shadow-lg">
                     <CardHeader>
                       <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
                         <Lightbulb className="h-8 w-8 text-primary" />
@@ -182,7 +182,7 @@ export default function LandingPage() {
                   </Card>
                 </AnimatedDiv>
                 <AnimatedDiv style={{ animationDelay: '0.4s' }}>
-                  <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
+                  <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2 hover:shadow-lg">
                     <CardHeader>
                       <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
                         <Sparkles className="h-8 w-8 text-primary" />
@@ -195,7 +195,7 @@ export default function LandingPage() {
                   </Card>
                 </AnimatedDiv>
                 <AnimatedDiv style={{ animationDelay: '0.6s' }}>
-                  <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
+                  <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2 hover:shadow-lg">
                     <CardHeader>
                       <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
                         <TrendingUp className="h-8 w-8 text-primary" />
@@ -470,5 +470,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-    
