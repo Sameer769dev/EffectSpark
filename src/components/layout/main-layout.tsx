@@ -1,17 +1,19 @@
+
 'use client';
 
-import { BarChart, Heart, Home, Sparkles, TrendingUp } from 'lucide-react';
+import { BarChart, Heart, Sparkles, TrendingUp, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 const navLinks = [
-  { href: '/', label: 'Dashboard', icon: Home },
+  { href: '/', label: 'Dashboard', icon: Sparkles },
   { href: '/generator', label: 'Generator', icon: Sparkles },
   { href: '/trends', label: 'Trends', icon: TrendingUp },
   { href: '/favorites', label: 'Favorites', icon: Heart },
   { href: '/creators', label: 'Creators', icon: BarChart },
+  { href: '/profile', label: 'Profile', icon: User },
 ];
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
