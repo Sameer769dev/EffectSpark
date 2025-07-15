@@ -18,8 +18,8 @@ const navLinks = [
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
-  // Don't show the main nav on the landing page
-  if (pathname === '/') {
+  // Don't show the main nav on the landing page or login pages
+  if (pathname === '/' || pathname === '/login' || pathname === '/profile/create') {
     return <>{children}</>;
   }
 

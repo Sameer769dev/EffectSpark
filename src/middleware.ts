@@ -15,7 +15,8 @@ export async function middleware(request: NextRequest) {
     pathname.endsWith('.png') || 
     pathname.endsWith('.ico') || 
     pathname.endsWith('.webmanifest') ||
-    pathname === '/' // Landing page is public
+    pathname === '/' || // Landing page is public
+    pathname === '/login' // Login page is public
   ) {
     return NextResponse.next();
   }
@@ -23,27 +24,17 @@ export async function middleware(request: NextRequest) {
   const session = await getIronSession(cookies(), sessionOptions);
   const { isLoggedIn, profileComplete } = session;
 
-  // Allow access to the profile page for login/viewing
-  if (pathname.startsWith('/profile')) {
-      // If user is logged in but profile is not complete, redirect from /profile to /profile/create
-      if (isLoggedIn && !profileComplete && pathname === '/profile') {
-        const url = request.nextUrl.clone();
-        url.pathname = '/profile/create';
-        return NextResponse.redirect(url);
-      }
-      return NextResponse.next();
-  }
-  
-  // If user is not logged in, redirect any other page to the profile page to log in
+  // If user is not logged in, redirect any protected page to the login page
   if (!isLoggedIn) {
     const url = request.nextUrl.clone();
-    url.pathname = '/profile';
+    url.pathname = '/login';
+    url.searchParams.set('redirect_to', pathname);
     return NextResponse.redirect(url);
   }
-
+  
   // If user is logged in but hasn't completed their profile,
   // redirect them to the creation page, unless they are already there.
-  if (isLoggedIn && !profileComplete && pathname !== '/profile/create') {
+  if (!profileComplete && pathname !== '/profile/create') {
     const url = request.nextUrl.clone();
     url.pathname = '/profile/create';
     return NextResponse.redirect(url);
@@ -51,10 +42,17 @@ export async function middleware(request: NextRequest) {
 
   // If the user is logged in and has completed their profile, but tries to access the creation page,
   // redirect them to the generator.
-  if (isLoggedIn && profileComplete && pathname === '/profile/create') {
+  if (profileComplete && pathname === '/profile/create') {
      const url = request.nextUrl.clone();
      url.pathname = '/generator';
      return NextResponse.redirect(url);
+  }
+
+  // If a logged-in user tries to access the login page, redirect them to the generator
+  if (isLoggedIn && pathname === '/login') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/generator';
+    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();
