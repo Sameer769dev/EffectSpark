@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -32,6 +33,13 @@ import Image from 'next/image';
 import { AnimatedDiv } from '@/components/animated-div';
 import { cn } from '@/lib/utils';
 import { ScrollLottieAnimation } from '@/components/scroll-lottie-animation';
+import React from 'react';
+import dynamic from 'next/dynamic';
+
+const Hero3DMockup = dynamic(() => import('@/components/hero-3d-mockup').then(mod => mod.Hero3DMockup), {
+  ssr: false,
+});
+
 
 const featureCards = [
   {
@@ -117,7 +125,10 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section className="relative text-center py-20 md:py-32 overflow-hidden">
           <div className="absolute inset-0 motion-safe:animate-background-pan bg-gradient-to-br from-background via-purple-900/10 to-teal-900/20 -z-10"></div>
-          <div className="container">
+          <div className="absolute inset-0 -z-20">
+            <Hero3DMockup />
+          </div>
+          <div className="container relative">
             <h1 className="text-4xl md:text-6xl font-bold font-headline tracking-tight text-foreground">
               {heroHeadline.split("").map((letter, index) => (
                 <span
@@ -463,3 +474,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
