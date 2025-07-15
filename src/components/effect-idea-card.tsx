@@ -53,7 +53,7 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
   };
 
   return (
-    <Card className="flex flex-col h-full shadow-md hover:shadow-xl transition-shadow duration-300 bg-secondary/30 border-secondary">
+    <Card className="flex flex-col h-full shadow-md hover:shadow-primary/20 transition-shadow duration-300 bg-secondary/30 border-secondary">
       <CardHeader>
         <CardTitle className="font-headline">{idea.title}</CardTitle>
         <CardDescription>{idea.description}</CardDescription>
@@ -77,15 +77,15 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
       <CardFooter className="flex justify-between items-center gap-2 pt-4 border-t border-secondary mt-auto">
         <Button variant="ghost" size="sm" onClick={handleGetMoreHints} disabled={isGettingHints} className="text-primary hover:text-primary hover:bg-primary/10">
           {isGettingHints ? (
-              <>
+              <React.Fragment>
                 <Loader2 className="animate-spin mr-2" />
                 Getting hints...
-              </>
+              </React.Fragment>
             ) : (
-              <>
+              <React.Fragment>
                 <Lightbulb className="mr-2" />
                 More Hints
-              </>
+              </React.Fragment>
             )}
         </Button>
         <Button variant={favorite ? 'secondary' : 'outline'} size="icon" onClick={handleFavoriteToggle} aria-label="Toggle Favorite">
