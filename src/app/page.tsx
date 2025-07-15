@@ -441,16 +441,16 @@ export default function LandingPage() {
                 <div>
                   <h4 className="font-semibold font-headline mb-3">Company</h4>
                   <nav className="flex flex-col space-y-2">
-                    <Link href="#" className="text-sm hover:text-primary transition-colors">About</Link>
-                    <Link href="#" className="text-sm hover:text-primary transition-colors">Contact</Link>
-                    <Link href="#" className="text-sm hover:text-primary transition-colors">Careers</Link>
+                    <Link href="/about" className="text-sm hover:text-primary transition-colors">About</Link>
+                    <Link href="/contact" className="text-sm hover:text-primary transition-colors">Contact</Link>
+                    <Link href="/careers" className="text-sm hover:text-primary transition-colors">Careers</Link>
                   </nav>
                 </div>
                 <div>
                   <h4 className="font-semibold font-headline mb-3">Legal</h4>
                   <nav className="flex flex-col space-y-2">
-                    <Link href="#" className="text-sm hover:text-primary transition-colors">Privacy Policy</Link>
-                    <Link href="#" className="text-sm hover:text-primary transition-colors">Terms of Service</Link>
+                    <Link href="/privacy" className="text-sm hover:text-primary transition-colors">Privacy Policy</Link>
+                    <Link href="/terms" className="text-sm hover:text-primary transition-colors">Terms of Service</Link>
                   </nav>
                 </div>
               </div>

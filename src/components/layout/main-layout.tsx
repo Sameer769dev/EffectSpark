@@ -15,11 +15,13 @@ const navLinks = [
   { href: '/profile', label: 'Profile', icon: User },
 ];
 
+const contentPages = ['/about', '/contact', '/careers', '/privacy', '/terms'];
+
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   // Don't show the main nav on the landing page or login pages
-  if (pathname === '/' || pathname === '/login' || pathname === '/profile/create') {
+  if (pathname === '/' || pathname === '/login' || pathname === '/profile/create' || contentPages.includes(pathname)) {
     return <>{children}</>;
   }
 
