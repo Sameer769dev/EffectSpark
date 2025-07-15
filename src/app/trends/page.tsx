@@ -93,7 +93,7 @@ export default function TrendsPage() {
       {analysis && !isLoading && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in-50">
           {analysis.trends.map((trend, index) => (
-            <Card key={index} className="flex flex-col bg-card border-border">
+            <Card key={index} className="flex flex-col bg-card border-border hover:border-primary/50 transition-colors">
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <CardTitle className="font-headline text-2xl">

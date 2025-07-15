@@ -53,7 +53,7 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
   };
 
   return (
-    <Card className="flex flex-col h-full shadow-md hover:shadow-primary/20 transition-shadow duration-300 bg-card border-border">
+    <Card className="flex flex-col h-full shadow-md hover:shadow-primary/20 transition-shadow duration-300 bg-card border-border hover:border-primary/50">
       <CardHeader>
         <CardTitle className="font-headline text-xl">{idea.title}</CardTitle>
         <CardDescription className="text-sm">{idea.description}</CardDescription>
