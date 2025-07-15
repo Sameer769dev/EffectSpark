@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -104,20 +105,31 @@ const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
+const heroHeadline = "Generate Viral TikTok Effect Ideas in Seconds – Powered by AI";
+
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="text-center py-20 md:py-32">
+        <section className="relative text-center py-20 md:py-32 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-background via-purple-900/10 to-teal-900/20 animate-background-pan -z-10"></div>
           <div className="container">
-            <h1 className="text-4xl md:text-6xl font-bold font-headline tracking-tight text-foreground animate-fade-in">
-              Generate Viral TikTok Effect Ideas in Seconds – Powered by AI
+            <h1 className="text-4xl md:text-6xl font-bold font-headline tracking-tight text-foreground">
+              {heroHeadline.split("").map((letter, index) => (
+                <span
+                  key={index}
+                  className="inline-block animate-letter-in"
+                  style={{ animationDelay: `${index * 0.02}s` }}
+                >
+                  {letter === " " ? "\u00A0" : letter}
+                </span>
+              ))}
             </h1>
-            <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground animate-fade-in" style={{ animationDelay: '0.8s' }}>
               Whether you're a beginner or pro, our AI inspires creative, trending AR filter ideas tailored just for TikTok.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4 animate-fade-in" style={{ animationDelay: '1s' }}>
               <Button asChild size="lg" className="font-semibold">
                 <Link href="/generator">
                   <Wand2 /> Try it Free
