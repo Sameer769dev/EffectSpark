@@ -216,8 +216,8 @@ export default function LandingPage() {
             </AnimatedDiv>
             <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featureCards.map((feature, index) => (
-                <AnimatedDiv key={index} style={{ animationDelay: `${index * 0.2}s` }}>
-                  <Card className="bg-card/50 border-border/50 hover:border-primary/50 hover:bg-card transition-all text-left h-full">
+                <AnimatedDiv key={index} style={{ animationDelay: `${index * 0.15}s` }}>
+                  <Card className="bg-card/50 border-border/50 hover:border-primary/50 hover:bg-card hover:-translate-y-2 transition-all text-left h-full">
                     <CardHeader>
                       <feature.icon className="h-8 w-8 text-primary mb-2" />
                       <CardTitle>{feature.title}</CardTitle>
