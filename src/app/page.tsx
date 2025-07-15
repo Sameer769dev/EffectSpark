@@ -103,7 +103,7 @@ export default function LandingPage() {
           <div className="container">
             <div className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
-                Go From Idea to Viral in 3 Steps
+                Turn Creativity into Virality – Here’s How
               </h2>
               <p className="mt-2 text-muted-foreground">
                 Simplify your creative workflow and let AI handle the heavy
@@ -116,10 +116,10 @@ export default function LandingPage() {
                   <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit">
                     <Lightbulb className="h-8 w-8 text-primary" />
                   </div>
-                  <CardTitle>1. Describe Your Idea</CardTitle>
+                  <CardTitle>1. Describe Your Style or Trend</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p>Start with a simple prompt, a theme, or even creative constraints like "face mesh only."</p>
+                  <p>Choose a vibe, trend, or creative constraint.</p>
                 </CardContent>
               </Card>
               <Card className="text-center bg-card/50">
@@ -127,10 +127,10 @@ export default function LandingPage() {
                   <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit">
                     <Sparkles className="h-8 w-8 text-primary" />
                   </div>
-                  <CardTitle>2. AI Generates Concepts</CardTitle>
+                  <CardTitle>2. AI Suggests Effect Ideas</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p>Our AI brainstorms dozens of unique effect ideas, complete with descriptions and virality scores.</p>
+                  <p>Get tailored, ready-to-use effect prompts.</p>
                 </CardContent>
               </Card>
               <Card className="text-center bg-card/50">
@@ -138,10 +138,10 @@ export default function LandingPage() {
                   <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit">
                     <TrendingUp className="h-8 w-8 text-primary" />
                   </div>
-                  <CardTitle>3. Create & Go Viral</CardTitle>
+                  <CardTitle>3. Build, Post, Go Viral</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p>Use the implementation hints and insights to build your next hit effect in Effect House.</p>
+                  <p>Bring ideas to life in TikTok Effect House.</p>
                 </CardContent>
               </Card>
             </div>
