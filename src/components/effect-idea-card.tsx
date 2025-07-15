@@ -6,9 +6,10 @@ import type { EffectIdea } from '@/types';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import { useFavorites } from '@/context/favorites-context';
-import { Heart, Lightbulb, Loader2 } from 'lucide-react';
+import { Heart, Lightbulb, Loader2, TrendingUp } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import React from 'react';
+import { Progress } from './ui/progress';
 
 interface EffectIdeaCardProps {
   idea: EffectIdea;
@@ -57,7 +58,17 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
         <CardTitle className="font-headline">{idea.title}</CardTitle>
         <CardDescription>{idea.description}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-grow">
+      <CardContent className="flex-grow space-y-4">
+        {idea.viralityScore !== undefined && (
+          <div className="space-y-2">
+            <h4 className="font-semibold text-sm flex items-center gap-2">
+              <TrendingUp className="text-primary" />
+              Virality Score: {idea.viralityScore}
+            </h4>
+            <Progress value={idea.viralityScore} className="h-2" />
+            <p className="text-sm text-muted-foreground">{idea.predictionReasoning}</p>
+          </div>
+        )}
         <div className="space-y-2">
             <h4 className="font-semibold text-sm">Implementation Hints</h4>
             <p className="text-sm text-muted-foreground whitespace-pre-wrap">{currentHints}</p>

@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { generateEffectIdeas } from '@/ai/flows/generate-effect-ideas';
+import { predictVirality } from '@/ai/flows/predict-virality';
 import type { EffectIdea } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -39,8 +40,8 @@ const formSchema = z.object({
   creativeConstraints: z.string().optional(),
 });
 
-const categories = ['AR', 'Funny', 'Beauty', 'Gaming', 'Educational'];
-const themes = ['Holidays', 'Music', 'Challenges', 'Fashion', 'Sci-Fi'];
+const categories = ['AR', 'Funny', 'Beauty', 'Gaming', 'Educational', 'Interactive', 'Green Screen'];
+const themes = ['Holidays', 'Music', 'Challenges', 'Fashion', 'Sci-Fi', 'Summer', 'Winter'];
 
 export default function Home() {
   const [ideas, setIdeas] = useState<EffectIdea[]>([]);
@@ -62,11 +63,23 @@ export default function Home() {
     setIdeas([]);
     try {
       const result = await generateEffectIdeas(values);
-      const ideasWithIds = result.effectIdeas.map((idea) => ({
-        ...idea,
-        id: crypto.randomUUID(),
-      }));
-      setIdeas(ideasWithIds);
+
+      const ideasWithVirality = await Promise.all(
+        result.effectIdeas.map(async (idea) => {
+          const viralityPrediction = await predictVirality({
+            title: idea.title,
+            description: idea.description,
+          });
+          return {
+            ...idea,
+            id: crypto.randomUUID(),
+            viralityScore: viralityPrediction.viralityScore,
+            predictionReasoning: viralityPrediction.predictionReasoning,
+          };
+        })
+      );
+      setIdeas(ideasWithVirality);
+
     } catch (error) {
       console.error('Error generating ideas:', error);
       toast({
@@ -103,16 +116,16 @@ export default function Home() {
                 name="trendingStyles"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Trending Styles</FormLabel>
+                    <FormLabel>Prompt</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="e.g., retro-futurism, cottagecore aesthetics, glitch effects..."
+                        placeholder="e.g., 'Generate face-tracking filter ideas for summer 2025', 'retro-futurism ideas', 'interactive AR games'..."
                         className="resize-y min-h-[100px]"
                         {...field}
                       />
                     </FormControl>
                     <FormDescription>
-                      Describe current trends you've noticed on TikTok.
+                      Describe the kind of effect ideas you're looking for. Be as specific as you like.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -214,7 +227,7 @@ export default function Home() {
         <div className="text-center py-10">
           <Loader2 className="mx-auto h-12 w-12 animate-spin text-primary" />
           <p className="mt-4 text-muted-foreground">
-            Our AI is brainstorming... this might take a moment.
+            Our AI is brainstorming and predicting virality... this might take a moment.
           </p>
         </div>
       )}
