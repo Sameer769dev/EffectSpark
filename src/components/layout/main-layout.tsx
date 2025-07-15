@@ -24,13 +24,13 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <div className="min-h-screen bg-background">
         <Sidebar>
-          <SidebarHeader className="p-4">
+          <SidebarHeader className="p-4 border-b border-border">
             <Link href="/" className="flex items-center gap-3">
               <div className="bg-primary p-2 rounded-lg shadow-md">
                 <Sparkles className="h-6 w-6 text-primary-foreground" />
               </div>
               <div className="group-data-[collapsed=icon]:hidden">
-                <h1 className="text-2xl font-bold font-headline text-primary">
+                <h1 className="text-2xl font-bold font-headline text-foreground">
                   EffectSpark
                 </h1>
               </div>
@@ -78,16 +78,16 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           </SidebarContent>
         </Sidebar>
         <SidebarInset>
+          <header className="flex items-center justify-between md:hidden p-4 border-b border-border">
+            <Link href="/" className="flex items-center gap-2">
+              <Sparkles className="text-primary h-6 w-6" />
+              <span className="text-xl font-bold font-headline text-foreground">
+                EffectSpark
+              </span>
+            </Link>
+            <SidebarTrigger />
+          </header>
           <div className="p-4 sm:p-6 lg:p-8">
-            <div className="flex items-center justify-between md:hidden mb-4">
-              <Link href="/" className="flex items-center gap-2">
-                <Sparkles className="text-primary h-6 w-6" />
-                <span className="text-xl font-bold font-headline text-primary">
-                  EffectSpark
-                </span>
-              </Link>
-              <SidebarTrigger />
-            </div>
             {children}
           </div>
         </SidebarInset>

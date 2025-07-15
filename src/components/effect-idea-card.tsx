@@ -52,7 +52,7 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
   };
 
   return (
-    <Card className="flex flex-col h-full shadow-md hover:shadow-xl transition-shadow duration-300 bg-card">
+    <Card className="flex flex-col h-full shadow-md hover:shadow-xl transition-shadow duration-300 bg-secondary/30 border-secondary">
       <CardHeader>
         <CardTitle className="font-headline">{idea.title}</CardTitle>
         <CardDescription>{idea.description}</CardDescription>
@@ -63,16 +63,16 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
             <p className="text-sm text-muted-foreground whitespace-pre-wrap">{currentHints}</p>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between items-center gap-2 pt-4">
-        <Button variant="ghost" size="sm" onClick={handleGetMoreHints} disabled={isGettingHints} className="text-accent-foreground hover:text-accent-foreground hover:bg-accent/20">
-          <>
+      <CardFooter className="flex justify-between items-center gap-2 pt-4 border-t border-secondary mt-auto">
+        <Button variant="ghost" size="sm" onClick={handleGetMoreHints} disabled={isGettingHints} className="text-primary hover:text-primary hover:bg-primary/10">
+          <React.Fragment>
             {isGettingHints ? (
               <Loader2 className="animate-spin mr-2" />
             ) : (
               <Lightbulb className="mr-2" />
             )}
             More Hints
-          </>
+          </React.Fragment>
         </Button>
         <Button variant={favorite ? 'secondary' : 'outline'} size="icon" onClick={handleFavoriteToggle} aria-label="Toggle Favorite">
           <Heart className={`transition-colors duration-300 ${favorite ? 'text-red-500 fill-current' : 'text-muted-foreground'}`} />

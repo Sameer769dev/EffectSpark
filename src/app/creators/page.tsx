@@ -28,12 +28,12 @@ export default function CreatorsPage() {
         <p className="text-muted-foreground mt-2">
           A snapshot of the leading creators in the Effect House community.
         </p>
-        <Badge variant="outline" className="mt-4">
+        <Badge variant="outline" className="mt-4 border-dashed">
           Note: This is sample data for demonstration purposes.
         </Badge>
       </header>
 
-      <Card className="bg-card">
+      <Card className="bg-card border-border">
         <CardHeader>
           <CardTitle>Creator Leaderboard</CardTitle>
           <CardDescription>
@@ -53,7 +53,7 @@ export default function CreatorsPage() {
             </TableHeader>
             <TableBody>
               {creators.map((creator) => (
-                <TableRow key={creator.rank}>
+                <TableRow key={creator.rank} className="border-secondary">
                   <TableCell className="font-medium">{creator.rank}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-3">
