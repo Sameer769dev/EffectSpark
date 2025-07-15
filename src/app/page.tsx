@@ -36,6 +36,7 @@ const formSchema = z.object({
   }),
   category: z.string().optional(),
   theme: z.string().optional(),
+  creativeConstraints: z.string().optional(),
 });
 
 const categories = ['AR', 'Funny', 'Beauty', 'Gaming', 'Educational'];
@@ -52,6 +53,7 @@ export default function Home() {
       trendingStyles: '',
       category: '',
       theme: '',
+      creativeConstraints: '',
     },
   });
 
@@ -111,6 +113,26 @@ export default function Home() {
                     </FormControl>
                     <FormDescription>
                       Describe current trends you've noticed on TikTok.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+               <FormField
+                control={form.control}
+                name="creativeConstraints"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Creative Constraints (Optional)</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="e.g., 'must use face mesh only', 'hand gestures only', 'no external assets'..."
+                        className="resize-y"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Add any limitations or specific features to include.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

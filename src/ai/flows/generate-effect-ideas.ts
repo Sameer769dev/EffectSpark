@@ -24,6 +24,10 @@ const GenerateEffectIdeasInputSchema = z.object({
     .string()
     .optional()
     .describe('The theme of effect ideas to generate (e.g., holidays, music, challenges).'),
+  creativeConstraints: z
+    .string()
+    .optional()
+    .describe('Specific creative constraints for the effect ideas (e.g., "must use face mesh only").'),
 });
 
 export type GenerateEffectIdeasInput = z.infer<typeof GenerateEffectIdeasInputSchema>;
@@ -60,6 +64,10 @@ const generateEffectIdeasPrompt = ai.definePrompt({
 
   {{#if theme}}
   Theme: {{{theme}}}
+  {{/if}}
+
+  {{#if creativeConstraints}}
+  Creative Constraints: You MUST adhere to the following constraints: {{{creativeConstraints}}}
   {{/if}}
 
   Ensure that the generated effect ideas are diverse and suitable for a wide range of TikTok users. Focus on originality and potential virality.
