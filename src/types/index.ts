@@ -6,3 +6,9 @@ export type EffectIdea = {
   viralityScore?: number;
   predictionReasoning?: string;
 };
+
+export interface User {
+  isLoggedIn: boolean;
+  username: string;
+  avatar: string;
+}

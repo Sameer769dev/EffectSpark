@@ -1,9 +1,8 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -13,7 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -23,8 +21,15 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { AtSign, History, User, Link as LinkIcon, Rss, Loader2 } from 'lucide-react';
+import Link from 'next/link';
 
 const effectHistory: any[] = [];
+
+type UserProfile = {
+    avatar_url: string;
+    display_name: string;
+    username: string;
+}
 
 // TikTok Icon SVG
 const TikTokIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -36,21 +41,25 @@ const TikTokIcon = (props: React.SVGProps<SVGSVGElement>) => (
 )
 
 export default function ProfilePage() {
-    const [isLinking, setIsLinking] = useState(false);
-    const [linkedAccount, setLinkedAccount] = useState<string | null>(null);
+    const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const handleLinkClick = () => {
-        setIsLinking(true);
-        // Simulate an API call
-        setTimeout(() => {
-            setLinkedAccount('@your_tiktok_handle');
-            setIsLinking(false);
-        }, 2000);
-    };
-
-    const handleUnlinkClick = () => {
-        setLinkedAccount(null);
-    }
+    useEffect(() => {
+        async function fetchProfile() {
+            try {
+                const res = await fetch('/api/user/profile');
+                if (res.ok) {
+                    const data = await res.json();
+                    setProfile(data.user);
+                }
+            } catch (error) {
+                console.error("Failed to fetch profile", error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchProfile();
+    }, []);
 
   return (
     <div className="space-y-8">
@@ -68,20 +77,20 @@ export default function ProfilePage() {
           <Card className="bg-card border-border">
             <CardHeader className="items-center text-center">
               <Avatar className="w-24 h-24 mb-4 border-4 border-primary">
-                <AvatarImage src="https://placehold.co/100x100.png" data-ai-hint="creator avatar" alt="@creator" />
-                <AvatarFallback>EH</AvatarFallback>
+                <AvatarImage src={profile?.avatar_url || "https://placehold.co/100x100.png"} data-ai-hint="creator avatar" alt={profile?.username || 'creator'} />
+                <AvatarFallback>{profile?.display_name?.charAt(0) || 'U'}</AvatarFallback>
               </Avatar>
-              <CardTitle className="text-2xl">EffectHouse-User</CardTitle>
-              <CardDescription>Creator Account</CardDescription>
+              <CardTitle className="text-2xl">{profile?.display_name || 'EffectHouse-User'}</CardTitle>
+              <CardDescription>{profile ? `@${profile.username}` : 'Creator Account'}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
                <div className="flex items-center gap-3">
                   <User className="text-muted-foreground" />
-                  <span className='font-medium'>Your Name</span>
+                  <span className='font-medium'>{profile?.display_name || 'Your Name'}</span>
                </div>
                 <div className="flex items-center gap-3">
                   <AtSign className="text-muted-foreground" />
-                   <span className='text-muted-foreground'>user@example.com</span>
+                   <span className='text-muted-foreground'>{profile ? `${profile.username}@tiktok.com` : 'user@example.com'}</span>
                </div>
             </CardContent>
           </Card>
@@ -97,27 +106,26 @@ export default function ProfilePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {linkedAccount ? (
+              {isLoading ? (
+                <div className='flex justify-center items-center h-10'>
+                    <Loader2 className="animate-spin" />
+                </div>
+              ) : profile ? (
                 <div className="space-y-4">
                     <div className="flex items-center gap-3 bg-secondary p-3 rounded-lg">
                         <TikTokIcon className="h-6 w-6" />
-                        <span className="font-medium text-foreground">{linkedAccount}</span>
+                        <span className="font-medium text-foreground">@{profile.username}</span>
                     </div>
-                    <Button variant="outline" onClick={handleUnlinkClick} className="w-full">Unlink Account</Button>
+                    <Button variant="outline" asChild className="w-full">
+                        <Link href="/api/auth/logout">Unlink Account</Link>
+                    </Button>
                 </div>
               ) : (
-                <Button onClick={handleLinkClick} disabled={isLinking} className="w-full bg-black hover:bg-gray-800 text-white font-bold border border-gray-600">
-                    {isLinking ? (
-                        <>
-                            <Loader2 className="animate-spin" />
-                            <span>Linking...</span>
-                        </>
-                    ) : (
-                        <>
-                            <TikTokIcon className="h-5 w-5" />
-                            <span>Login with TikTok</span>
-                        </>
-                    )}
+                <Button asChild className="w-full bg-black hover:bg-gray-800 text-white font-bold border border-gray-600">
+                    <Link href="/api/auth/tiktok">
+                        <TikTokIcon className="h-5 w-5" />
+                        <span>Login with TikTok</span>
+                    </Link>
                 </Button>
               )}
             </CardContent>
@@ -154,12 +162,7 @@ export default function ProfilePage() {
                         <TableCell>{effect.date}</TableCell>
                         <TableCell className="text-right">{effect.videos}</TableCell>
                         <TableCell className="text-right">
-                          <Badge
-                            variant={effect.status === 'Live' ? 'default' : 'secondary'}
-                            className={effect.status === 'Live' ? 'bg-green-500/20 text-green-400 border-green-500/30' : ''}
-                          >
-                            {effect.status}
-                          </Badge>
+                          {/* Badge styling would go here */}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -181,3 +184,4 @@ export default function ProfilePage() {
     </div>
   );
 }
+

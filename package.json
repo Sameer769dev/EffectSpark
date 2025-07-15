@@ -45,6 +45,7 @@
     "firebase": "^11.9.1",
     "genkit": "^1.13.0",
     "gsap": "^3.12.5",
+    "iron-session": "^8.0.2",
     "lucide-react": "^0.475.0",
     "next": "15.3.3",
     "react": "^18.3.1",
