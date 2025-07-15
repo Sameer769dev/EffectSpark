@@ -8,7 +8,6 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 const navLinks = [
-  { href: '/', label: 'Dashboard', icon: Sparkles },
   { href: '/generator', label: 'Generator', icon: Sparkles },
   { href: '/trends', label: 'Trends', icon: TrendingUp },
   { href: '/favorites', label: 'Favorites', icon: Heart },
@@ -18,6 +17,11 @@ const navLinks = [
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+
+  // Don't show the main nav on the landing page
+  if (pathname === '/') {
+    return <>{children}</>;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -33,7 +37,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             {navLinks.map(({ href, label }) => (
               <Button
                 key={href}
-                variant={pathname === href ? 'secondary' : 'ghost'}
+                variant={pathname.startsWith(href) ? 'secondary' : 'ghost'}
                 asChild
                 className="h-9 px-4"
               >
@@ -56,7 +60,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
               href={href}
               className={cn(
                 'flex flex-col items-center justify-center gap-1 transition-colors hover:text-primary w-16 h-full',
-                pathname === href ? 'text-primary' : 'text-muted-foreground'
+                pathname.startsWith(href) ? 'text-primary' : 'text-muted-foreground'
               )}
             >
               <Icon className="h-5 w-5" />
