@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -32,6 +31,7 @@ import {
 import Image from 'next/image';
 import { AnimatedDiv } from '@/components/animated-div';
 import { cn } from '@/lib/utils';
+import { ScrollLottieAnimation } from '@/components/scroll-lottie-animation';
 
 const featureCards = [
   {
@@ -159,45 +159,50 @@ export default function LandingPage() {
                 lifting.
               </p>
             </AnimatedDiv>
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-              <AnimatedDiv style={{ animationDelay: '0.2s' }}>
-                <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
-                  <CardHeader>
-                    <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
-                      <Lightbulb className="h-8 w-8 text-primary" />
-                    </div>
-                    <CardTitle>1. Describe Your Style or Trend</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>Choose a vibe, trend, or creative constraint.</p>
-                  </CardContent>
-                </Card>
-              </AnimatedDiv>
-              <AnimatedDiv style={{ animationDelay: '0.4s' }}>
-                <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
-                  <CardHeader>
-                    <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
-                      <Sparkles className="h-8 w-8 text-primary" />
-                    </div>
-                    <CardTitle>2. AI Suggests Effect Ideas</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>Get tailored, ready-to-use effect prompts.</p>
-                  </CardContent>
-                </Card>
-              </AnimatedDiv>
-              <AnimatedDiv style={{ animationDelay: '0.6s' }}>
-                <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
-                  <CardHeader>
-                    <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
-                      <TrendingUp className="h-8 w-8 text-primary" />
-                    </div>
-                    <CardTitle>3. Build, Post, Go Viral</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>Bring ideas to life in TikTok Effect House.</p>
-                  </CardContent>
-                </Card>
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              <div className="space-y-8">
+                <AnimatedDiv style={{ animationDelay: '0.2s' }}>
+                  <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
+                    <CardHeader>
+                      <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
+                        <Lightbulb className="h-8 w-8 text-primary" />
+                      </div>
+                      <CardTitle>1. Describe Your Style or Trend</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p>Choose a vibe, trend, or creative constraint.</p>
+                    </CardContent>
+                  </Card>
+                </AnimatedDiv>
+                <AnimatedDiv style={{ animationDelay: '0.4s' }}>
+                  <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
+                    <CardHeader>
+                      <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
+                        <Sparkles className="h-8 w-8 text-primary" />
+                      </div>
+                      <CardTitle>2. AI Suggests Effect Ideas</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p>Get tailored, ready-to-use effect prompts.</p>
+                    </CardContent>
+                  </Card>
+                </AnimatedDiv>
+                <AnimatedDiv style={{ animationDelay: '0.6s' }}>
+                  <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
+                    <CardHeader>
+                      <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
+                        <TrendingUp className="h-8 w-8 text-primary" />
+                      </div>
+                      <CardTitle>3. Build, Post, Go Viral</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p>Bring ideas to life in TikTok Effect House.</p>
+                    </CardContent>
+                  </Card>
+                </AnimatedDiv>
+              </div>
+              <AnimatedDiv className="hidden md:block">
+                  <ScrollLottieAnimation />
               </AnimatedDiv>
             </div>
           </div>
