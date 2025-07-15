@@ -160,7 +160,7 @@ export default function LandingPage() {
             </AnimatedDiv>
             <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
               <AnimatedDiv style={{ animationDelay: '0.2s' }}>
-                <Card className="text-center bg-card/50 group h-full">
+                <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
                   <CardHeader>
                     <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
                       <Lightbulb className="h-8 w-8 text-primary" />
@@ -173,7 +173,7 @@ export default function LandingPage() {
                 </Card>
               </AnimatedDiv>
               <AnimatedDiv style={{ animationDelay: '0.4s' }}>
-                <Card className="text-center bg-card/50 group h-full">
+                <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
                   <CardHeader>
                     <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
                       <Sparkles className="h-8 w-8 text-primary" />
@@ -186,7 +186,7 @@ export default function LandingPage() {
                 </Card>
               </AnimatedDiv>
               <AnimatedDiv style={{ animationDelay: '0.6s' }}>
-                <Card className="text-center bg-card/50 group h-full">
+                <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
                   <CardHeader>
                     <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
                       <TrendingUp className="h-8 w-8 text-primary" />
@@ -248,7 +248,7 @@ export default function LandingPage() {
                 </AnimatedDiv>
                 <div className="space-y-4">
                      <AnimatedDiv style={{ animationDelay: '0.2s' }}>
-                        <Card className="bg-card animate-float hover:scale-105 transition-transform duration-300">
+                        <Card className="bg-card animate-float hover:scale-105 transition-transform duration-300 hover:animate-pulse">
                             <CardHeader>
                                 <CardTitle>Invisible Dance Challenge AR</CardTitle>
                                 <CardDescription>Based on trending sound: #speedramp</CardDescription>
@@ -260,7 +260,7 @@ export default function LandingPage() {
                         </Card>
                      </AnimatedDiv>
                      <AnimatedDiv style={{ animationDelay: '0.4s' }}>
-                        <Card className="bg-card animate-float [animation-delay:0.7s] ml-8 hover:scale-105 transition-transform duration-300">
+                        <Card className="bg-card animate-float [animation-delay:0.7s] ml-8 hover:scale-105 transition-transform duration-300 hover:animate-pulse">
                             <CardHeader>
                                 <CardTitle>AI Pet Sidekick</CardTitle>
                                 <CardDescription>A cute, customizable AI creature that reacts to your expressions.</CardDescription>
@@ -383,11 +383,13 @@ export default function LandingPage() {
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
                 Ready to Go Viral?
               </h2>
+            </AnimatedDiv>
+            <AnimatedDiv style={{ animationDelay: '0.2s' }}>
               <p className="mt-2 text-muted-foreground max-w-xl mx-auto">
                 Join thousands of creators and supercharge your brainstorming process today.
               </p>
             </AnimatedDiv>
-            <AnimatedDiv className="mt-8 flex flex-col sm:flex-row justify-center gap-4" style={{ animationDelay: '0.2s' }}>
+            <AnimatedDiv className="mt-8 flex flex-col sm:flex-row justify-center gap-4" style={{ animationDelay: '0.4s' }}>
               <Button asChild size="lg" className="font-semibold">
                 <Link href="/generator">
                   <Rocket /> Generate My First Idea
