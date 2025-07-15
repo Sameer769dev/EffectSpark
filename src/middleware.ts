@@ -4,6 +4,16 @@ import { getIronSession } from 'iron-session';
 import { sessionOptions } from './lib/session';
 import { cookies } from 'next/headers';
 
+const publicPages = [
+  '/',
+  '/login',
+  '/about',
+  '/contact',
+  '/careers',
+  '/privacy',
+  '/terms',
+];
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -15,8 +25,7 @@ export async function middleware(request: NextRequest) {
     pathname.endsWith('.png') || 
     pathname.endsWith('.ico') || 
     pathname.endsWith('.webmanifest') ||
-    pathname === '/' || // Landing page is public
-    pathname === '/login' // Login page is public
+    publicPages.includes(pathname)
   ) {
     return NextResponse.next();
   }
