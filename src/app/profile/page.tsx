@@ -19,14 +19,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { AtSign, History, User, Link as LinkIcon } from 'lucide-react';
+import { AtSign, History, User, Link as LinkIcon, Rss } from 'lucide-react';
 
-const effectHistory = [
-  { id: 'E001', name: 'Cyberpunk Glitch', date: '2024-07-15', videos: '1.2M', status: 'Live' },
-  { id: 'E002', name: 'Vintage Film Look', date: '2024-06-28', videos: '850K', status: 'Live' },
-  { id: 'E003', name: 'AR Pet Companion', date: '2024-05-10', videos: '3.5M', status: 'Live' },
-  { id: 'E004', name: 'Interactive Quiz', date: '2024-04-22', videos: '500K', status: 'In Review' },
-];
+const effectHistory: any[] = [];
 
 export default function ProfilePage() {
   return (
@@ -49,16 +44,16 @@ export default function ProfilePage() {
                 <AvatarFallback>EH</AvatarFallback>
               </Avatar>
               <CardTitle className="text-2xl">EffectHouse-User</CardTitle>
-              <CardDescription>Joined July 2024</CardDescription>
+              <CardDescription>Creator Account</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
                <div className="flex items-center gap-3">
                   <User className="text-muted-foreground" />
-                  <span className='font-medium'>JP Pirie</span>
+                  <span className='font-medium'>Your Name</span>
                </div>
                 <div className="flex items-center gap-3">
                   <AtSign className="text-muted-foreground" />
-                   <span className='text-muted-foreground'>user@effecthouse.com</span>
+                   <span className='text-muted-foreground'>user@example.com</span>
                </div>
             </CardContent>
           </Card>
@@ -75,8 +70,8 @@ export default function ProfilePage() {
             </CardHeader>
             <CardContent>
               <div className="flex gap-2">
-                <Input defaultValue="@creator_handle" />
-                <Button>Save</Button>
+                <Input placeholder="@creator_handle" />
+                <Button>Link</Button>
               </div>
             </CardContent>
           </Card>
@@ -95,39 +90,44 @@ export default function ProfilePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Effect Name</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead className="text-right">Videos</TableHead>
-                    <TableHead className="text-right">Status</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {effectHistory.map((effect) => (
-                    <TableRow key={effect.id}>
-                      <TableCell className="font-medium">{effect.name}</TableCell>
-                      <TableCell>{effect.date}</TableCell>
-                      <TableCell className="text-right">{effect.videos}</TableCell>
-                      <TableCell className="text-right">
-                        <Badge
-                          variant={effect.status === 'Live' ? 'default' : 'secondary'}
-                          className={effect.status === 'Live' ? 'bg-green-500/20 text-green-400 border-green-500/30' : ''}
-                        >
-                          {effect.status}
-                        </Badge>
-                      </TableCell>
+              {effectHistory.length > 0 ? (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Effect Name</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead className="text-right">Videos</TableHead>
+                      <TableHead className="text-right">Status</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {effectHistory.map((effect) => (
+                      <TableRow key={effect.id}>
+                        <TableCell className="font-medium">{effect.name}</TableCell>
+                        <TableCell>{effect.date}</TableCell>
+                        <TableCell className="text-right">{effect.videos}</TableCell>
+                        <TableCell className="text-right">
+                          <Badge
+                            variant={effect.status === 'Live' ? 'default' : 'secondary'}
+                            className={effect.status === 'Live' ? 'bg-green-500/20 text-green-400 border-green-500/30' : ''}
+                          >
+                            {effect.status}
+                          </Badge>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              ) : (
+                <div className="text-center py-20 border-2 border-dashed rounded-lg bg-card/50">
+                  <Rss className="mx-auto h-12 w-12 text-muted-foreground" />
+                  <h3 className="mt-4 text-lg font-medium">No Effect History</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Link your TikTok account to see your effect history here.
+                  </p>
+                </div>
+              )}
             </CardContent>
-            <CardFooter>
-                <p className="text-xs text-muted-foreground">
-                    Note: This is sample data for demonstration purposes.
-                </p>
-            </CardFooter>
           </Card>
         </div>
       </div>

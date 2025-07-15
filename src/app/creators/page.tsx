@@ -9,13 +9,9 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
+import { Construction } from 'lucide-react';
 
-const creators = [
-  { rank: 1, name: 'JP Pirie', followers: '1.2M', likes: '25.6M', effects: 120, avatar: 'https://placehold.co/40x40.png' },
-  { rank: 2, name: 'GOWAAA', followers: '890K', likes: '18.2M', effects: 85, avatar: 'https://placehold.co/40x40.png' },
-  { rank: 3, name: 'Laura Gouillon', followers: '750K', likes: '15.1M', effects: 95, avatar: 'https://placehold.co/40x40.png' },
-  { rank: 4, name: 'Antoni Tudisco', followers: '680K', likes: '12.8M', effects: 70, avatar: 'https://placehold.co/40x40.png' },
-  { rank: 5, name: 'Brendan Duffy', followers: '550K', likes: '10.5M', effects: 60, avatar: 'https://placehold.co/40x40.png' },
+const creators: any[] = [
 ];
 
 export default function CreatorsPage() {
@@ -28,9 +24,6 @@ export default function CreatorsPage() {
         <p className="text-muted-foreground mt-2">
           A snapshot of the leading creators in the Effect House community.
         </p>
-        <Badge variant="outline" className="mt-4 border-dashed">
-          Note: This is sample data for demonstration purposes.
-        </Badge>
       </header>
 
       <Card className="bg-card border-border">
@@ -41,40 +34,50 @@ export default function CreatorsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[50px]">Rank</TableHead>
-                <TableHead>Creator</TableHead>
-                <TableHead className="text-right">Followers</TableHead>
-                <TableHead className="text-right">Likes</TableHead>
-                <TableHead className="text-right">Effects</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {creators.map((creator) => (
-                <TableRow key={creator.rank} className="border-secondary">
-                  <TableCell className="font-medium">{creator.rank}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-3">
-                      <Image
-                        src={creator.avatar}
-                        alt={creator.name}
-                        width={40}
-                        height={40}
-                        className="rounded-full"
-                        data-ai-hint="creator avatar"
-                      />
-                      <span className="font-medium">{creator.name}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right">{creator.followers}</TableCell>
-                  <TableCell className="text-right">{creator.likes}</TableCell>
-                  <TableCell className="text-right">{creator.effects}</TableCell>
+          {creators.length > 0 ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[50px]">Rank</TableHead>
+                  <TableHead>Creator</TableHead>
+                  <TableHead className="text-right">Followers</TableHead>
+                  <TableHead className="text-right">Likes</TableHead>
+                  <TableHead className="text-right">Effects</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {creators.map((creator) => (
+                  <TableRow key={creator.rank} className="border-secondary">
+                    <TableCell className="font-medium">{creator.rank}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <Image
+                          src={creator.avatar}
+                          alt={creator.name}
+                          width={40}
+                          height={40}
+                          className="rounded-full"
+                          data-ai-hint="creator avatar"
+                        />
+                        <span className="font-medium">{creator.name}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right">{creator.followers}</TableCell>
+                    <TableCell className="text-right">{creator.likes}</TableCell>
+                    <TableCell className="text-right">{creator.effects}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <div className="text-center py-20 border-2 border-dashed rounded-lg bg-card/50">
+                <Construction className="mx-auto h-12 w-12 text-muted-foreground" />
+                <h3 className="mt-4 text-lg font-medium">Coming Soon!</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                    We're building the leaderboard. Stay tuned!
+                </p>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
