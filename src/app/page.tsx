@@ -248,7 +248,7 @@ export default function LandingPage() {
                 </AnimatedDiv>
                 <div className="space-y-4">
                      <AnimatedDiv style={{ animationDelay: '0.2s' }}>
-                        <Card className="bg-card animate-float">
+                        <Card className="bg-card animate-float hover:scale-105 transition-transform duration-300">
                             <CardHeader>
                                 <CardTitle>Invisible Dance Challenge AR</CardTitle>
                                 <CardDescription>Based on trending sound: #speedramp</CardDescription>
@@ -260,7 +260,7 @@ export default function LandingPage() {
                         </Card>
                      </AnimatedDiv>
                      <AnimatedDiv style={{ animationDelay: '0.4s' }}>
-                        <Card className="bg-card animate-float [animation-delay:0.7s] ml-8">
+                        <Card className="bg-card animate-float [animation-delay:0.7s] ml-8 hover:scale-105 transition-transform duration-300">
                             <CardHeader>
                                 <CardTitle>AI Pet Sidekick</CardTitle>
                                 <CardDescription>A cute, customizable AI creature that reacts to your expressions.</CardDescription>
