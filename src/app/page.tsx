@@ -229,13 +229,13 @@ export default function LandingPage() {
           <div className="container">
             <div className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
-                Loved by Top Effect Creators
+                Loved by Creators Worldwide
               </h2>
             </div>
             <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <Card className="bg-card/50 border-border/50">
                 <CardContent className="pt-6">
-                  <p className="italic">"EffectSpark is my secret weapon for brainstorming. The virality predictor is scarily accurate."</p>
+                  <p className="italic">"I built 3 effects this week with ideas from this tool – one already hit 500k views!"</p>
                 </CardContent>
                 <CardHeader>
                   <div className="flex items-center gap-4">
@@ -256,7 +256,7 @@ export default function LandingPage() {
               </Card>
                <Card className="bg-card/50 border-border/50">
                 <CardContent className="pt-6">
-                  <p className="italic">"I used to get creator's block all the time. Now I just fire up EffectSpark and have dozens of ideas in minutes."</p>
+                  <p className="italic">"Finally a tool that thinks like a creative."</p>
                 </CardContent>
                 <CardHeader>
                   <div className="flex items-center gap-4">
