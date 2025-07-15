@@ -82,7 +82,11 @@ const config = {
         'float': {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-8px)' },
-        }
+        },
+        'sparkle-fade': {
+          '0%': { opacity: '1', transform: 'scale(1)' },
+          '100%': { opacity: '0', transform: 'scale(0) rotate(90deg)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -90,6 +94,7 @@ const config = {
         'fade-in': 'fade-in 0.5s ease-in-out forwards',
         'pulse': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'float': 'float 3s ease-in-out infinite',
+        'sparkle-fade': 'sparkle-fade 1s ease-out forwards',
       },
     },
   },

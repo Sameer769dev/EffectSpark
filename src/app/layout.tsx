@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { MainLayout } from '@/components/layout/main-layout';
 import { FavoritesProvider } from '@/context/favorites-context';
+import { CursorSparkles } from '@/components/cursor-sparkles';
 
 export const metadata: Metadata = {
   title: 'EffectSpark',
@@ -27,6 +28,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased bg-background text-foreground">
+        <CursorSparkles />
         <FavoritesProvider>
           <MainLayout>{children}</MainLayout>
           <Toaster />
