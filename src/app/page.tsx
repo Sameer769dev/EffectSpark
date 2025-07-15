@@ -34,6 +34,7 @@ import { AnimatedDiv } from '@/components/animated-div';
 import { cn } from '@/lib/utils';
 import { ScrollLottieAnimation } from '@/components/scroll-lottie-animation';
 import React from 'react';
+import { MagneticButton } from '@/components/magnetic-button';
 
 const featureCards = [
   {
@@ -135,16 +136,20 @@ export default function LandingPage() {
               Whether you're a beginner or pro, our AI inspires creative, trending AR filter ideas tailored just for TikTok.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4 motion-safe:animate-fade-in" style={{ animationDelay: '1s' }}>
-              <Button asChild size="lg" className="font-semibold">
-                <Link href="/generator">
-                  <Wand2 /> Try it Free
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="font-semibold">
-                <Link href="#how-it-works">
-                  <BarChart2 /> See How It Works
-                </Link>
-              </Button>
+              <MagneticButton>
+                <Button asChild size="lg" className="font-semibold">
+                  <Link href="/generator">
+                    <Wand2 /> Try it Free
+                  </Link>
+                </Button>
+              </MagneticButton>
+              <MagneticButton>
+                <Button asChild size="lg" variant="outline" className="font-semibold">
+                  <Link href="#how-it-works">
+                    <BarChart2 /> See How It Works
+                  </Link>
+                </Button>
+              </MagneticButton>
             </div>
           </div>
         </section>
