@@ -9,6 +9,8 @@ import {
   TrendingUp,
   Heart,
   HelpCircle,
+  Wand2,
+  BarChart2,
 } from 'lucide-react';
 import {
   Card,
@@ -76,16 +78,20 @@ export default function LandingPage() {
         <section className="text-center py-20 md:py-32">
           <div className="container">
             <h1 className="text-4xl md:text-6xl font-bold font-headline tracking-tight text-foreground animate-fade-in">
-              Stop Scrolling, Start Creating
+              Generate Viral TikTok Effect Ideas in Seconds – Powered by AI
             </h1>
             <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground animate-fade-in delay-200">
-              The AI co-pilot for viral TikTok effects. Generate endless ideas,
-              predict virality, and stay ahead of the trends.
+              Whether you're a beginner or pro, our AI inspires creative, trending AR filter ideas tailored just for TikTok.
             </p>
-            <div className="mt-8 flex justify-center gap-4 animate-fade-in delay-400">
+            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4 animate-fade-in delay-400">
               <Button asChild size="lg" className="font-semibold">
                 <Link href="/generator">
-                  Start Creating for Free <ArrowRight />
+                  <Wand2 /> Try it Free
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="font-semibold">
+                <Link href="#how-it-works">
+                  <BarChart2 /> See How It Works
                 </Link>
               </Button>
             </div>
