@@ -16,10 +16,8 @@ export function AnimatedDiv({ children, className, ...props }: AnimatedDivProps)
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            observer.unobserve(entry.target);
-          }
+          // Set visibility based on whether the element is intersecting
+          setIsVisible(entry.isIntersecting);
         });
       },
       {
@@ -27,13 +25,14 @@ export function AnimatedDiv({ children, className, ...props }: AnimatedDivProps)
       }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    const currentRef = ref.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
