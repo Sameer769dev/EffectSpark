@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -119,7 +120,7 @@ export default function LandingPage() {
         <section className="relative text-center min-h-screen flex items-center justify-center py-20 md:py-32 overflow-hidden">
           <div className="absolute inset-0 motion-safe:animate-background-pan bg-gradient-to-br from-background via-primary/10 to-accent/20 -z-10"></div>
           <div className="container relative">
-            <h1 className="text-4xl md:text-6xl font-bold font-headline tracking-tight text-foreground">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-headline tracking-tight text-foreground">
               {heroHeadline.split("").map((letter, index) => (
                 <span
                   key={index}
