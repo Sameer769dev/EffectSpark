@@ -31,6 +31,7 @@ import {
 } from '@/components/ui/accordion';
 import Image from 'next/image';
 import { AnimatedDiv } from '@/components/animated-div';
+import { cn } from '@/lib/utils';
 
 const featureCards = [
   {
@@ -79,8 +80,8 @@ const faqItems = [
     }
 ];
 
-const SocialLink = ({ href, children }: { href: string, children: React.ReactNode }) => (
-    <Link href={href} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+const SocialLink = ({ href, children, className }: { href: string, children: React.ReactNode, className?: string }) => (
+    <Link href={href} target="_blank" rel="noopener noreferrer" className={cn("text-muted-foreground hover:text-primary transition-transform duration-300 hover:scale-110 hover:-translate-y-1", className)}>
         {children}
     </Link>
 );
@@ -406,52 +407,54 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border/40 py-12 bg-secondary/30">
-        <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Sparkles className="h-6 w-6 text-primary" />
-                <span className="font-bold font-headline text-lg">EffectSpark</span>
+      <AnimatedDiv>
+        <footer className="border-t border-border/40 py-12 bg-secondary/30">
+          <div className="container">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <Sparkles className="h-6 w-6 text-primary" />
+                  <span className="font-bold font-headline text-lg">EffectSpark</span>
+                </div>
+                <p className="text-muted-foreground text-sm">Made by creators for creators.</p>
+                <div className="flex space-x-4">
+                  <SocialLink href="#" className="animate-pulse"><TikTokIcon /></SocialLink>
+                  <SocialLink href="#"><InstagramIcon /></SocialLink>
+                  <SocialLink href="#"><XIcon /></SocialLink>
+                </div>
               </div>
-              <p className="text-muted-foreground text-sm">Made by creators for creators.</p>
-              <div className="flex space-x-4">
-                <SocialLink href="#"><TikTokIcon /></SocialLink>
-                <SocialLink href="#"><InstagramIcon /></SocialLink>
-                <SocialLink href="#"><XIcon /></SocialLink>
+              <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-8">
+                <div>
+                  <h4 className="font-semibold font-headline mb-3">Product</h4>
+                  <nav className="flex flex-col space-y-2">
+                    <Link href="/generator" className="text-sm hover:text-primary transition-colors">Generator</Link>
+                    <Link href="#features" className="text-sm hover:text-primary transition-colors">Features</Link>
+                    <Link href="#faq" className="text-sm hover:text-primary transition-colors">FAQ</Link>
+                  </nav>
+                </div>
+                <div>
+                  <h4 className="font-semibold font-headline mb-3">Company</h4>
+                  <nav className="flex flex-col space-y-2">
+                    <Link href="#" className="text-sm hover:text-primary transition-colors">About</Link>
+                    <Link href="#" className="text-sm hover:text-primary transition-colors">Contact</Link>
+                    <Link href="#" className="text-sm hover:text-primary transition-colors">Careers</Link>
+                  </nav>
+                </div>
+                <div>
+                  <h4 className="font-semibold font-headline mb-3">Legal</h4>
+                  <nav className="flex flex-col space-y-2">
+                    <Link href="#" className="text-sm hover:text-primary transition-colors">Privacy Policy</Link>
+                    <Link href="#" className="text-sm hover:text-primary transition-colors">Terms of Service</Link>
+                  </nav>
+                </div>
               </div>
             </div>
-            <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-8">
-              <div>
-                <h4 className="font-semibold font-headline mb-3">Product</h4>
-                <nav className="flex flex-col space-y-2">
-                  <Link href="/generator" className="text-sm hover:text-primary transition-colors">Generator</Link>
-                  <Link href="#features" className="text-sm hover:text-primary transition-colors">Features</Link>
-                  <Link href="#faq" className="text-sm hover:text-primary transition-colors">FAQ</Link>
-                </nav>
-              </div>
-              <div>
-                <h4 className="font-semibold font-headline mb-3">Company</h4>
-                <nav className="flex flex-col space-y-2">
-                  <Link href="#" className="text-sm hover:text-primary transition-colors">About</Link>
-                  <Link href="#" className="text-sm hover:text-primary transition-colors">Contact</Link>
-                  <Link href="#" className="text-sm hover:text-primary transition-colors">Careers</Link>
-                </nav>
-              </div>
-              <div>
-                <h4 className="font-semibold font-headline mb-3">Legal</h4>
-                <nav className="flex flex-col space-y-2">
-                  <Link href="#" className="text-sm hover:text-primary transition-colors">Privacy Policy</Link>
-                  <Link href="#" className="text-sm hover:text-primary transition-colors">Terms of Service</Link>
-                </nav>
-              </div>
+            <div className="mt-8 pt-8 border-t border-border/40 text-center text-sm text-muted-foreground">
+              <p>© {new Date().getFullYear()} EffectSpark. All rights reserved.</p>
             </div>
           </div>
-          <div className="mt-8 pt-8 border-t border-border/40 text-center text-sm text-muted-foreground">
-            <p>© {new Date().getFullYear()} EffectSpark. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+        </footer>
+      </AnimatedDiv>
     </div>
   );
 }
