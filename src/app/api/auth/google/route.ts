@@ -1,3 +1,4 @@
+
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { randomBytes } from 'crypto';
@@ -12,18 +13,20 @@ export async function GET() {
   });
 
   const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-  const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
+  const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
-  if (!GOOGLE_CLIENT_ID || !REDIRECT_URI) {
-    console.error('Google client ID or redirect URI not configured.');
-    return NextResponse.json({ error: 'Google client ID or redirect URI not configured.' }, { status: 500 });
+  if (!GOOGLE_CLIENT_ID || !APP_URL) {
+    console.error('Google client ID or App URL not configured.');
+    return NextResponse.json({ error: 'Google client ID or App URL not configured.' }, { status: 500 });
   }
+
+  const redirectUri = `${APP_URL}/api/auth/callback`;
 
   let url = 'https://accounts.google.com/o/oauth2/v2/auth';
 
   const params = new URLSearchParams({
     client_id: GOOGLE_CLIENT_ID,
-    redirect_uri: REDIRECT_URI,
+    redirect_uri: redirectUri,
     response_type: 'code',
     scope: 'openid email profile',
     state: csrfState,

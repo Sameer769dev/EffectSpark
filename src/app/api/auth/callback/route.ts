@@ -21,12 +21,14 @@ export async function GET(request: NextRequest) {
 
   const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
   const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-  const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
+  const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
-  if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !REDIRECT_URI) {
-    console.error('Google app credentials or redirect URI not configured.');
-    return NextResponse.json({ error: 'Google app credentials or redirect URI not configured.' }, { status: 500 });
+  if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !APP_URL) {
+    console.error('Google app credentials or App URL not configured.');
+    return NextResponse.json({ error: 'Google app credentials or App URL not configured.' }, { status: 500 });
   }
+  
+  const redirectUri = `${APP_URL}/api/auth/callback`;
 
   try {
     const tokenUrl = 'https://oauth2.googleapis.com/token';
@@ -34,7 +36,7 @@ export async function GET(request: NextRequest) {
         code: code,
         client_id: GOOGLE_CLIENT_ID,
         client_secret: GOOGLE_CLIENT_SECRET,
-        redirect_uri: REDIRECT_URI,
+        redirect_uri: redirectUri,
         grant_type: 'authorization_code',
     });
     
