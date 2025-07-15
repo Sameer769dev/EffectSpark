@@ -1,0 +1,13 @@
+diff --git a/node_modules/@react-three/fiber/dist/index.mjs b/node_modules/@react-three/fiber/dist/index.mjs
+index 2379b3c..f0a5749 100644
+--- a/node_modules/@react-three/fiber/dist/index.mjs
++++ b/node_modules/@react-three/fiber/dist/index.mjs
+@@ -1,6 +1,6 @@
+-import * as React from 'react';
++import React, { version } from 'react';
+ import { StoreApi, createStore, useStore } from 'zustand';
+-import { flushSync, unstable_batchedUpdates, createPortal } from 'react-dom';
++import { flushSync, unstable_batchedUpdates, createPortal } from 'react-dom/client';
+ import { Root, createRoot, events } from '@react-three/fiber/native';
+ import { EventManager, createEvents } from './events.js';
+ import { drei } from './native.js';
