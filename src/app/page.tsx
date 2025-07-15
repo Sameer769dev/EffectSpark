@@ -157,9 +157,9 @@ export default function LandingPage() {
               </p>
             </div>
             <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card className="text-center bg-card/50 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+              <Card className="text-center bg-card/50 animate-fade-in group" style={{ animationDelay: '0.2s' }}>
                 <CardHeader>
-                  <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit">
+                  <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
                     <Lightbulb className="h-8 w-8 text-primary" />
                   </div>
                   <CardTitle>1. Describe Your Style or Trend</CardTitle>
@@ -168,9 +168,9 @@ export default function LandingPage() {
                   <p>Choose a vibe, trend, or creative constraint.</p>
                 </CardContent>
               </Card>
-              <Card className="text-center bg-card/50 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+              <Card className="text-center bg-card/50 animate-fade-in group" style={{ animationDelay: '0.4s' }}>
                 <CardHeader>
-                  <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit">
+                  <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
                     <Sparkles className="h-8 w-8 text-primary" />
                   </div>
                   <CardTitle>2. AI Suggests Effect Ideas</CardTitle>
@@ -179,9 +179,9 @@ export default function LandingPage() {
                   <p>Get tailored, ready-to-use effect prompts.</p>
                 </CardContent>
               </Card>
-              <Card className="text-center bg-card/50 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+              <Card className="text-center bg-card/50 animate-fade-in group" style={{ animationDelay: '0.6s' }}>
                 <CardHeader>
-                  <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit">
+                  <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
                     <TrendingUp className="h-8 w-8 text-primary" />
                   </div>
                   <CardTitle>3. Build, Post, Go Viral</CardTitle>
