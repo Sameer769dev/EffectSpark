@@ -11,6 +11,10 @@ import {
   HelpCircle,
   Wand2,
   BarChart2,
+  BrainCircuit,
+  Save,
+  Rocket,
+  RefreshCw,
 } from 'lucide-react';
 import {
   Card,
@@ -30,24 +34,29 @@ import Image from 'next/image';
 
 const featureCards = [
   {
-    icon: Bot,
-    title: 'AI Effect Generator',
-    description: 'Generate novel TikTok effect ideas based on trending content analysis.',
+    icon: RefreshCw,
+    title: 'Endless Inspiration',
+    description: 'AI that never runs out of ideas, keeping your creativity flowing.',
   },
   {
     icon: TrendingUp,
+    title: 'Trend-Aware Suggestions',
+    description: 'Based on viral TikTok content to keep your effects relevant.',
+  },
+  {
+    icon: BrainCircuit,
+    title: 'Creative Constraints',
+    description: 'Challenge modes to unlock new concepts and push boundaries.',
+  },
+  {
+    icon: Save,
+    title: 'Save & Share Boards',
+    description: 'Moodboards for every idea you love, ready for collaboration.',
+  },
+  {
+    icon: Rocket,
     title: 'Virality Predictor',
-    description: 'Get a virality score for your ideas based on novelty, interactivity, and trends.',
-  },
-  {
-    icon: Lightbulb,
-    title: 'Implementation Hints',
-    description: 'Receive suggestions and starting points to bring your effects to life in Effect House.',
-  },
-  {
-    icon: Heart,
-    title: 'Save Favorites',
-    description: 'Organize your best ideas on a personal board for easy access and reference.',
+    description: 'See what could go big before you build and invest your time.',
   },
 ];
 
@@ -153,16 +162,16 @@ export default function LandingPage() {
           <div className="container">
             <div className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
-                Your All-In-One Creator Studio
+                Designed for TikTok Effect Creators
               </h2>
               <p className="mt-2 text-muted-foreground">
                 Everything you need to spark creativity and build with
                 confidence.
               </p>
             </div>
-            <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featureCards.map((feature, index) => (
-                <Card key={index} className="bg-card/50 border-border/50 hover:border-primary/50 hover:bg-card transition-all">
+                <Card key={index} className="bg-card/50 border-border/50 hover:border-primary/50 hover:bg-card transition-all text-left">
                   <CardHeader>
                     <feature.icon className="h-8 w-8 text-primary mb-2" />
                     <CardTitle>{feature.title}</CardTitle>
