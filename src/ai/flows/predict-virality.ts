@@ -68,7 +68,7 @@ const predictViralityFlow = ai.defineFlow(
       const { output } = await prompt(input);
       return output!;
     } catch (error: any) {
-      if (error.status === 503) {
+      if (error.status === 503 || (error.cause as any)?.status === 503) {
         console.warn('Primary model overloaded, switching to fallback.');
         const { output } = await prompt(input, { model: 'googleai/gemini-1.5-flash-latest' });
         return output!;

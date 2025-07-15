@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -118,7 +117,7 @@ export default function LandingPage() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative text-center min-h-screen flex items-center justify-center py-20 md:py-32 overflow-hidden">
-          <div className="absolute inset-0 motion-safe:animate-background-pan bg-gradient-to-br from-background via-purple-900/10 to-teal-900/20 -z-10"></div>
+          <div className="absolute inset-0 motion-safe:animate-background-pan bg-gradient-to-br from-background via-primary/10 to-accent/20 -z-10"></div>
           <div className="container relative">
             <h1 className="text-4xl md:text-6xl font-bold font-headline tracking-tight text-foreground">
               {heroHeadline.split("").map((letter, index) => (
@@ -255,7 +254,7 @@ export default function LandingPage() {
                 </AnimatedDiv>
                 <div className="space-y-4">
                      <AnimatedDiv style={{ animationDelay: '0.2s' }}>
-                        <Card className="bg-card motion-safe:animate-float motion-safe:hover:animate-pulse hover:scale-105 transition-transform duration-300">
+                        <Card className="bg-card/50 motion-safe:animate-float motion-safe:hover:animate-pulse hover:scale-105 transition-transform duration-300">
                             <CardHeader>
                                 <CardTitle>Invisible Dance Challenge AR</CardTitle>
                                 <CardDescription>Based on trending sound: #speedramp</CardDescription>
@@ -267,7 +266,7 @@ export default function LandingPage() {
                         </Card>
                      </AnimatedDiv>
                      <AnimatedDiv style={{ animationDelay: '0.4s' }}>
-                        <Card className="bg-card motion-safe:animate-float [animation-delay:0.7s] ml-8 motion-safe:hover:animate-pulse hover:scale-105 transition-transform duration-300">
+                        <Card className="bg-card/50 motion-safe:animate-float [animation-delay:0.7s] ml-8 motion-safe:hover:animate-pulse hover:scale-105 transition-transform duration-300">
                             <CardHeader>
                                 <CardTitle>AI Pet Sidekick</CardTitle>
                                 <CardDescription>A cute, customizable AI creature that reacts to your expressions.</CardDescription>
