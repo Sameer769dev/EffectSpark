@@ -124,7 +124,7 @@ export default function LandingPage() {
               {heroHeadline.split("").map((letter, index) => (
                 <span
                   key={index}
-                  className="inline-block motion-safe:animate-letter-in"
+                  className="inline-block motion-safe:animate-letter-in transition-all duration-300 ease-in-out hover:text-primary hover:-translate-y-2 hover:drop-shadow-[0_0_10px_hsl(var(--primary))]"
                   style={{ animationDelay: `${index * 0.02}s` }}
                 >
                   {letter === " " ? "\u00A0" : letter}
