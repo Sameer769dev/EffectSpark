@@ -1,4 +1,6 @@
 
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -28,6 +30,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import Image from 'next/image';
+import { AnimatedDiv } from '@/components/animated-div';
 
 const featureCards = [
   {
@@ -76,7 +79,6 @@ const faqItems = [
     }
 ];
 
-// Re-usable Social Icons for the footer
 const SocialLink = ({ href, children }: { href: string, children: React.ReactNode }) => (
     <Link href={href} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
         {children}
@@ -147,7 +149,7 @@ export default function LandingPage() {
         {/* How It Works */}
         <section id="how-it-works" className="py-20 bg-secondary/30">
           <div className="container">
-            <div className="text-center animate-fade-in">
+            <AnimatedDiv className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
                 Turn Creativity into Virality – Here’s How
               </h2>
@@ -155,41 +157,47 @@ export default function LandingPage() {
                 Simplify your creative workflow and let AI handle the heavy
                 lifting.
               </p>
-            </div>
+            </AnimatedDiv>
             <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card className="text-center bg-card/50 animate-fade-in group" style={{ animationDelay: '0.2s' }}>
-                <CardHeader>
-                  <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
-                    <Lightbulb className="h-8 w-8 text-primary" />
-                  </div>
-                  <CardTitle>1. Describe Your Style or Trend</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p>Choose a vibe, trend, or creative constraint.</p>
-                </CardContent>
-              </Card>
-              <Card className="text-center bg-card/50 animate-fade-in group" style={{ animationDelay: '0.4s' }}>
-                <CardHeader>
-                  <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
-                    <Sparkles className="h-8 w-8 text-primary" />
-                  </div>
-                  <CardTitle>2. AI Suggests Effect Ideas</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p>Get tailored, ready-to-use effect prompts.</p>
-                </CardContent>
-              </Card>
-              <Card className="text-center bg-card/50 animate-fade-in group" style={{ animationDelay: '0.6s' }}>
-                <CardHeader>
-                  <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
-                    <TrendingUp className="h-8 w-8 text-primary" />
-                  </div>
-                  <CardTitle>3. Build, Post, Go Viral</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p>Bring ideas to life in TikTok Effect House.</p>
-                </CardContent>
-              </Card>
+              <AnimatedDiv style={{ animationDelay: '0.2s' }}>
+                <Card className="text-center bg-card/50 group h-full">
+                  <CardHeader>
+                    <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
+                      <Lightbulb className="h-8 w-8 text-primary" />
+                    </div>
+                    <CardTitle>1. Describe Your Style or Trend</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p>Choose a vibe, trend, or creative constraint.</p>
+                  </CardContent>
+                </Card>
+              </AnimatedDiv>
+              <AnimatedDiv style={{ animationDelay: '0.4s' }}>
+                <Card className="text-center bg-card/50 group h-full">
+                  <CardHeader>
+                    <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
+                      <Sparkles className="h-8 w-8 text-primary" />
+                    </div>
+                    <CardTitle>2. AI Suggests Effect Ideas</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p>Get tailored, ready-to-use effect prompts.</p>
+                  </CardContent>
+                </Card>
+              </AnimatedDiv>
+              <AnimatedDiv style={{ animationDelay: '0.6s' }}>
+                <Card className="text-center bg-card/50 group h-full">
+                  <CardHeader>
+                    <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
+                      <TrendingUp className="h-8 w-8 text-primary" />
+                    </div>
+                    <CardTitle>3. Build, Post, Go Viral</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p>Bring ideas to life in TikTok Effect House.</p>
+                  </CardContent>
+                </Card>
+              </AnimatedDiv>
             </div>
           </div>
         </section>
@@ -197,7 +205,7 @@ export default function LandingPage() {
         {/* Key Features */}
         <section id="features" className="py-20">
           <div className="container">
-            <div className="text-center animate-fade-in">
+            <AnimatedDiv className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
                 Designed for TikTok Effect Creators
               </h2>
@@ -205,18 +213,20 @@ export default function LandingPage() {
                 Everything you need to spark creativity and build with
                 confidence.
               </p>
-            </div>
+            </AnimatedDiv>
             <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featureCards.map((feature, index) => (
-                <Card key={index} className="bg-card/50 border-border/50 hover:border-primary/50 hover:bg-card transition-all text-left animate-fade-in" style={{ animationDelay: `${index * 0.2}s` }}>
-                  <CardHeader>
-                    <feature.icon className="h-8 w-8 text-primary mb-2" />
-                    <CardTitle>{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">{feature.description}</p>
-                  </CardContent>
-                </Card>
+                <AnimatedDiv key={index} style={{ animationDelay: `${index * 0.2}s` }}>
+                  <Card className="bg-card/50 border-border/50 hover:border-primary/50 hover:bg-card transition-all text-left h-full">
+                    <CardHeader>
+                      <feature.icon className="h-8 w-8 text-primary mb-2" />
+                      <CardTitle>{feature.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">{feature.description}</p>
+                    </CardContent>
+                  </Card>
+                </AnimatedDiv>
               ))}
             </div>
           </div>
@@ -225,7 +235,7 @@ export default function LandingPage() {
         {/* Trending Ideas Teaser */}
         <section className="py-20 bg-secondary/30">
             <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                <div className="space-y-4 animate-fade-in">
+                <AnimatedDiv className="space-y-4">
                     <h2 className="text-3xl md:text-4xl font-bold font-headline">What’s Hot Right Now?</h2>
                     <p className="text-muted-foreground text-lg">
                         Our AI analyzes the latest TikTok trends to generate fresh, relevant, and high-potential effect ideas for you, complete with a predicted virality score.
@@ -235,28 +245,32 @@ export default function LandingPage() {
                         Try the Generator <ArrowRight />
                         </Link>
                     </Button>
-                </div>
+                </AnimatedDiv>
                 <div className="space-y-4">
-                     <Card className="bg-card animate-float animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                        <CardHeader>
-                            <CardTitle>Invisible Dance Challenge AR</CardTitle>
-                            <CardDescription>Based on trending sound: #speedramp</CardDescription>
-                        </CardHeader>
-                        <CardFooter className="flex justify-between items-center">
-                            <span className="text-sm font-bold">🔥🔥🔥</span>
-                            <span className="font-bold text-lg text-primary">88</span>
-                        </CardFooter>
-                    </Card>
-                    <Card className="bg-card animate-float [animation-delay:0.7s] ml-8 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                        <CardHeader>
-                            <CardTitle>AI Pet Sidekick</CardTitle>
-                            <CardDescription>A cute, customizable AI creature that reacts to your expressions.</CardDescription>
-                        </CardHeader>
-                        <CardFooter className="flex justify-between items-center">
-                            <span className="text-sm font-bold">🔥🔥🔥🔥🔥</span>
-                            <span className="font-bold text-lg text-primary">92</span>
-                        </CardFooter>
-                    </Card>
+                     <AnimatedDiv style={{ animationDelay: '0.2s' }}>
+                        <Card className="bg-card animate-float">
+                            <CardHeader>
+                                <CardTitle>Invisible Dance Challenge AR</CardTitle>
+                                <CardDescription>Based on trending sound: #speedramp</CardDescription>
+                            </CardHeader>
+                            <CardFooter className="flex justify-between items-center">
+                                <span className="text-sm font-bold">🔥🔥🔥</span>
+                                <span className="font-bold text-lg text-primary">88</span>
+                            </CardFooter>
+                        </Card>
+                     </AnimatedDiv>
+                     <AnimatedDiv style={{ animationDelay: '0.4s' }}>
+                        <Card className="bg-card animate-float [animation-delay:0.7s] ml-8">
+                            <CardHeader>
+                                <CardTitle>AI Pet Sidekick</CardTitle>
+                                <CardDescription>A cute, customizable AI creature that reacts to your expressions.</CardDescription>
+                            </CardHeader>
+                            <CardFooter className="flex justify-between items-center">
+                                <span className="text-sm font-bold">🔥🔥🔥🔥🔥</span>
+                                <span className="font-bold text-lg text-primary">92</span>
+                            </CardFooter>
+                        </Card>
+                    </AnimatedDiv>
                 </div>
             </div>
         </section>
@@ -264,82 +278,88 @@ export default function LandingPage() {
         {/* Testimonials */}
         <section id="testimonials" className="py-20">
           <div className="container">
-            <div className="text-center animate-fade-in">
+            <AnimatedDiv className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
                 Loved by Creators Worldwide
               </h2>
-            </div>
+            </AnimatedDiv>
             <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card className="bg-card/50 border-border/50 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                <CardContent className="pt-6">
-                  <p className="italic">"I built 3 effects this week with ideas from this tool – one already hit 500k views!"</p>
-                </CardContent>
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <Image
-                      src="https://placehold.co/40x40.png"
-                      alt="Creator"
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                      data-ai-hint="creator avatar"
-                    />
-                    <div>
-                      <CardTitle className="text-base">@ViralCreator101</CardTitle>
-                      <CardDescription>1.2M Followers</CardDescription>
+              <AnimatedDiv style={{ animationDelay: '0.2s' }}>
+                <Card className="bg-card/50 border-border/50 h-full">
+                  <CardContent className="pt-6">
+                    <p className="italic">"I built 3 effects this week with ideas from this tool – one already hit 500k views!"</p>
+                  </CardContent>
+                  <CardHeader>
+                    <div className="flex items-center gap-4">
+                      <Image
+                        src="https://placehold.co/40x40.png"
+                        alt="Creator"
+                        width={40}
+                        height={40}
+                        className="rounded-full"
+                        data-ai-hint="creator avatar"
+                      />
+                      <div>
+                        <CardTitle className="text-base">@ViralCreator101</CardTitle>
+                        <CardDescription>1.2M Followers</CardDescription>
+                      </div>
                     </div>
-                  </div>
-                </CardHeader>
-              </Card>
-               <Card className="bg-card/50 border-border/50 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                <CardContent className="pt-6">
-                  <p className="italic">“Finally a tool that thinks like a creative.”</p>
-                </CardContent>
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <Image
-                      src="https://placehold.co/40x40.png"
-                      alt="Creator"
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                      data-ai-hint="creator avatar"
-                    />
-                    <div>
-                      <CardTitle className="text-base">@AR_Magician</CardTitle>
-                      <CardDescription>850k Followers</CardDescription>
+                  </CardHeader>
+                </Card>
+              </AnimatedDiv>
+               <AnimatedDiv style={{ animationDelay: '0.4s' }}>
+                 <Card className="bg-card/50 border-border/50 h-full">
+                  <CardContent className="pt-6">
+                    <p className="italic">“Finally a tool that thinks like a creative.”</p>
+                  </CardContent>
+                  <CardHeader>
+                    <div className="flex items-center gap-4">
+                      <Image
+                        src="https://placehold.co/40x40.png"
+                        alt="Creator"
+                        width={40}
+                        height={40}
+                        className="rounded-full"
+                        data-ai-hint="creator avatar"
+                      />
+                      <div>
+                        <CardTitle className="text-base">@AR_Magician</CardTitle>
+                        <CardDescription>850k Followers</CardDescription>
+                      </div>
                     </div>
-                  </div>
-                </CardHeader>
-              </Card>
-              <Card className="bg-card/50 border-border/50 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-                <CardContent className="pt-6">
-                  <p className="italic">"The implementation hints are a lifesaver. It helps me bridge the gap between a cool idea and a real effect."</p>
-                </CardContent>
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <Image
-                      src="https://placehold.co/40x40.png"
-                      alt="Creator"
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                      data-ai-hint="creator avatar"
-                    />
-                    <div>
-                      <CardTitle className="text-base">@FilterQueen</CardTitle>
-                      <CardDescription>2.5M Followers</CardDescription>
+                  </CardHeader>
+                 </Card>
+               </AnimatedDiv>
+              <AnimatedDiv style={{ animationDelay: '0.6s' }}>
+                <Card className="bg-card/50 border-border/50 h-full">
+                  <CardContent className="pt-6">
+                    <p className="italic">"The implementation hints are a lifesaver. It helps me bridge the gap between a cool idea and a real effect."</p>
+                  </CardContent>
+                  <CardHeader>
+                    <div className="flex items-center gap-4">
+                      <Image
+                        src="https://placehold.co/40x40.png"
+                        alt="Creator"
+                        width={40}
+                        height={40}
+                        className="rounded-full"
+                        data-ai-hint="creator avatar"
+                      />
+                      <div>
+                        <CardTitle className="text-base">@FilterQueen</CardTitle>
+                        <CardDescription>2.5M Followers</CardDescription>
+                      </div>
                     </div>
-                  </div>
-                </CardHeader>
-              </Card>
+                  </CardHeader>
+                </Card>
+              </AnimatedDiv>
             </div>
           </div>
         </section>
 
         {/* FAQ Section */}
         <section id="faq" className="py-20 bg-secondary/30">
-          <div className="container max-w-3xl mx-auto animate-fade-in">
+          <AnimatedDiv className="container max-w-3xl mx-auto">
             <div className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
                 Frequently Asked Questions
@@ -353,21 +373,21 @@ export default function LandingPage() {
                 </AccordionItem>
               ))}
             </Accordion>
-          </div>
+          </AnimatedDiv>
         </section>
 
         {/* Final CTA */}
         <section className="py-20">
           <div className="container text-center">
-            <div className="animate-fade-in">
+            <AnimatedDiv>
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
                 Ready to Go Viral?
               </h2>
               <p className="mt-2 text-muted-foreground max-w-xl mx-auto">
                 Join thousands of creators and supercharge your brainstorming process today.
               </p>
-            </div>
-            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            </AnimatedDiv>
+            <AnimatedDiv className="mt-8 flex flex-col sm:flex-row justify-center gap-4" style={{ animationDelay: '0.2s' }}>
               <Button asChild size="lg" className="font-semibold">
                 <Link href="/generator">
                   <Rocket /> Generate My First Idea
@@ -378,7 +398,7 @@ export default function LandingPage() {
                   <Search /> Watch Demo
                 </Link>
               </Button>
-            </div>
+            </AnimatedDiv>
           </div>
         </section>
       </main>
