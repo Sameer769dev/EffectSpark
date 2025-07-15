@@ -94,7 +94,7 @@ const config = {
         'fade-in': 'fade-in 0.5s ease-in-out forwards',
         'pulse': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'float': 'float 3s ease-in-out infinite',
-        'sparkle-fade': 'sparkle-fade 1s ease-out forwards',
+        'sparkle-fade': 'sparkle-fade 1.5s ease-out forwards',
       },
     },
   },
