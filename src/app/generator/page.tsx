@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -6,11 +7,17 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { EffectIdeaCard } from '@/components/effect-idea-card';
 import { IdeaGeneratorForm } from '@/components/idea-generator-form';
+import { InspirationalPrompts } from '@/components/inspirational-prompts';
 
 export default function GeneratorPage() {
   const [ideas, setIdeas] = useState<EffectIdea[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [prompt, setPrompt] = useState('');
   const { toast } = useToast();
+
+  const handlePromptSelect = (selectedPrompt: string) => {
+    setPrompt(selectedPrompt);
+  };
 
   return (
     <div className="space-y-8">
@@ -27,7 +34,9 @@ export default function GeneratorPage() {
       <IdeaGeneratorForm 
         setIsLoading={setIsLoading} 
         setIdeas={setIdeas} 
-        toast={toast} 
+        toast={toast}
+        prompt={prompt}
+        setPrompt={setPrompt}
       />
 
       {isLoading && (
@@ -38,6 +47,10 @@ export default function GeneratorPage() {
             moment.
           </p>
         </div>
+      )}
+
+      {!isLoading && ideas.length === 0 && (
+        <InspirationalPrompts onPromptSelect={handlePromptSelect} />
       )}
 
       {ideas.length > 0 && (

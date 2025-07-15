@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -22,7 +23,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Loader2, Sparkles, Wand2 } from 'lucide-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { generateEffectIdeas } from '@/ai/flows/generate-effect-ideas';
 import { predictVirality } from '@/ai/flows/predict-virality';
 import type { EffectIdea } from '@/types';
@@ -65,6 +66,8 @@ interface IdeaGeneratorFormProps {
     title: string;
     description: string;
   }) => void;
+  prompt?: string;
+  setPrompt?: (prompt: string) => void;
 }
 
 export function IdeaGeneratorForm({
@@ -72,19 +75,27 @@ export function IdeaGeneratorForm({
   setIsLoading,
   setIdeas,
   toast,
+  prompt,
+  setPrompt
 }: IdeaGeneratorFormProps) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      trendingStyles: '',
+      trendingStyles: prompt || '',
       category: '',
       theme: '',
       creativeConstraints: '',
     },
   });
 
+  useEffect(() => {
+    if (prompt) {
+      form.setValue('trendingStyles', prompt);
+    }
+  }, [prompt, form]);
+  
   const isGenerating = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -124,6 +135,7 @@ export function IdeaGeneratorForm({
       });
     } finally {
       setIsLoading?.(false);
+      setPrompt?.('');
     }
   }
 
