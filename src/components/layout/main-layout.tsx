@@ -86,11 +86,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                   EffectSpark
                 </span>
               </Link>
-              <SidebarTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <PanelLeft />
-                </Button>
-              </SidebarTrigger>
+              <SidebarTrigger />
             </div>
             {children}
           </div>

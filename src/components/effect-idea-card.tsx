@@ -65,14 +65,14 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
       </CardContent>
       <CardFooter className="flex justify-between items-center gap-2 pt-4">
         <Button variant="ghost" size="sm" onClick={handleGetMoreHints} disabled={isGettingHints} className="text-accent-foreground hover:text-accent-foreground hover:bg-accent/20">
-          <span className="flex items-center">
+          <>
             {isGettingHints ? (
               <Loader2 className="animate-spin mr-2" />
             ) : (
               <Lightbulb className="mr-2" />
             )}
             More Hints
-          </span>
+          </>
         </Button>
         <Button variant={favorite ? 'secondary' : 'outline'} size="icon" onClick={handleFavoriteToggle} aria-label="Toggle Favorite">
           <Heart className={`transition-colors duration-300 ${favorite ? 'text-red-500 fill-current' : 'text-muted-foreground'}`} />

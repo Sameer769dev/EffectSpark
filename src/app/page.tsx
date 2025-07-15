@@ -172,15 +172,15 @@ export default function Home() {
               </div>
               <Button type="submit" disabled={isLoading} className="w-full md:w-auto bg-primary hover:bg-primary/90 text-primary-foreground">
                 {isLoading ? (
-                  <span className="flex items-center">
+                  <>
                     <Loader2 className="animate-spin" />
                     <span className="ml-2">Generating...</span>
-                  </span>
+                  </>
                 ) : (
-                  <span className="flex items-center">
+                  <>
                     <Sparkles className="mr-2" />
                     <span>Spark Ideas</span>
-                  </span>
+                  </>
                 )}
               </Button>
             </form>
