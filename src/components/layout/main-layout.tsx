@@ -1,97 +1,68 @@
 'use client';
 
-import { BarChart, Heart, PanelLeft, Sparkles } from 'lucide-react';
+import { BarChart, Heart, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/components/ui/sidebar';
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+
+const navLinks = [
+  { href: '/', label: 'Generator', icon: Sparkles },
+  { href: '/favorites', label: 'Favorites', icon: Heart },
+  { href: '/creators', label: 'Top Creators', icon: BarChart },
+];
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen bg-background">
-        <Sidebar>
-          <SidebarHeader className="p-4 border-b border-border">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="bg-primary p-2 rounded-lg shadow-md">
-                <Sparkles className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <div className="group-data-[collapsed=icon]:hidden">
-                <h1 className="text-2xl font-bold font-headline text-foreground">
-                  EffectSpark
-                </h1>
-              </div>
+    <div className="min-h-screen flex flex-col bg-background">
+      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 max-w-screen-2xl items-center">
+          <div className="mr-4 flex">
+            <Link href="/" className="mr-6 flex items-center space-x-2">
+              <Sparkles className="h-6 w-6 text-primary" />
+              <span className="font-bold font-headline text-lg">EffectSpark</span>
             </Link>
-          </SidebarHeader>
-          <SidebarContent className="p-2">
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === '/'}
-                  tooltip={{ children: 'Generator' }}
+            <nav className="hidden md:flex items-center gap-6 text-sm">
+              {navLinks.map(({ href, label, icon: Icon }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className={cn(
+                    'transition-colors hover:text-foreground/80',
+                    pathname === href ? 'text-foreground' : 'text-foreground/60'
+                  )}
                 >
-                  <Link href="/">
-                    <Sparkles />
-                    <span>Generator</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === '/favorites'}
-                  tooltip={{ children: 'Favorites' }}
-                >
-                  <Link href="/favorites">
-                    <Heart />
-                    <span>Favorites</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === '/creators'}
-                  tooltip={{ children: 'Top Creators' }}
-                >
-                  <Link href="/creators">
-                    <BarChart />
-                    <span>Top Creators</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarContent>
-        </Sidebar>
-        <SidebarInset>
-          <header className="flex items-center justify-between md:hidden p-4 border-b border-border">
-            <Link href="/" className="flex items-center gap-2">
-              <Sparkles className="text-primary h-6 w-6" />
-              <span className="text-xl font-bold font-headline text-foreground">
-                EffectSpark
-              </span>
-            </Link>
-            <SidebarTrigger />
-          </header>
-          <div className="p-4 sm:p-6 lg:p-8">
-            {children}
+                  {label}
+                </Link>
+              ))}
+            </nav>
           </div>
-        </SidebarInset>
-      </div>
-    </SidebarProvider>
+        </div>
+      </header>
+      <main className="flex-1">
+        <div className="container max-w-screen-2xl py-8">{children}</div>
+      </main>
+
+      {/* Mobile Bottom Nav */}
+      <footer className="md:hidden sticky bottom-0 z-50 mt-auto border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <nav className="flex items-center justify-around h-16">
+          {navLinks.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className={cn(
+                'flex flex-col items-center gap-1 transition-colors hover:text-primary',
+                pathname === href ? 'text-primary' : 'text-muted-foreground'
+              )}
+            >
+              <Icon className="h-5 w-5" />
+              <span className="text-xs">{label}</span>
+            </Link>
+          ))}
+        </nav>
+      </footer>
+    </div>
   );
 }
