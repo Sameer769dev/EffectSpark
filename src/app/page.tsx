@@ -225,7 +225,7 @@ export default function LandingPage() {
                     </Button>
                 </div>
                 <div className="space-y-4">
-                     <Card className="bg-card transform hover:scale-105 transition-transform duration-300">
+                     <Card className="bg-card animate-float">
                         <CardHeader>
                             <CardTitle>Invisible Dance Challenge AR</CardTitle>
                             <CardDescription>Based on trending sound: #speedramp</CardDescription>
@@ -235,7 +235,7 @@ export default function LandingPage() {
                             <span className="font-bold text-lg text-primary">88</span>
                         </CardFooter>
                     </Card>
-                    <Card className="bg-card transform hover:scale-105 transition-transform duration-300 ml-8">
+                    <Card className="bg-card animate-float [animation-delay:0.5s] ml-8">
                         <CardHeader>
                             <CardTitle>AI Pet Sidekick</CardTitle>
                             <CardDescription>A cute, customizable AI creature that reacts to your expressions.</CardDescription>
