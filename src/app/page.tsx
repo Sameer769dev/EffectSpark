@@ -2,19 +2,15 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
   ArrowRight,
-  BarChart,
-  Bot,
-  Lightbulb,
-  Sparkles,
-  TrendingUp,
-  Heart,
-  HelpCircle,
-  Wand2,
   BarChart2,
   BrainCircuit,
-  Save,
+  Lightbulb,
   Rocket,
-  RefreshCw,
+  Save,
+  Search,
+  Sparkles,
+  TrendingUp,
+  Wand2,
 } from 'lucide-react';
 import {
   Card,
@@ -34,7 +30,7 @@ import Image from 'next/image';
 
 const featureCards = [
   {
-    icon: RefreshCw,
+    icon: Sparkles,
     title: 'Endless Inspiration',
     description: 'AI that never runs out of ideas, keeping your creativity flowing.',
   },
@@ -256,7 +252,7 @@ export default function LandingPage() {
               </Card>
                <Card className="bg-card/50 border-border/50">
                 <CardContent className="pt-6">
-                  <p className="italic">"Finally a tool that thinks like a creative."</p>
+                  <p className="italic">“Finally a tool that thinks like a creative.”</p>
                 </CardContent>
                 <CardHeader>
                   <div className="flex items-center gap-4">
@@ -323,15 +319,20 @@ export default function LandingPage() {
         <section className="py-20">
           <div className="container text-center">
             <h2 className="text-3xl md:text-4xl font-bold font-headline">
-              Ready to Spark Your Next Viral Hit?
+              Ready to Go Viral?
             </h2>
             <p className="mt-2 text-muted-foreground max-w-xl mx-auto">
               Join thousands of creators and supercharge your brainstorming process today.
             </p>
-            <div className="mt-8">
+            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
               <Button asChild size="lg" className="font-semibold">
                 <Link href="/generator">
-                  Get Started for Free <ArrowRight />
+                  <Rocket /> Generate My First Idea
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="font-semibold">
+                <Link href="#how-it-works">
+                  <Search /> Watch Demo
                 </Link>
               </Button>
             </div>
