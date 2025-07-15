@@ -189,9 +189,9 @@ export default function LandingPage() {
         <section className="py-20 bg-secondary/30">
             <div className="container grid lg:grid-cols-2 gap-12 items-center">
                 <div className="space-y-4">
-                    <h2 className="text-3xl md:text-4xl font-bold font-headline">Never Run Out of Ideas</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold font-headline">What’s Hot Right Now?</h2>
                     <p className="text-muted-foreground text-lg">
-                        Our AI analyzes the latest TikTok trends to generate fresh, relevant, and high-potential effect ideas for you, complete with a predicted virality score. See what's bubbling up right now.
+                        Our AI analyzes the latest TikTok trends to generate fresh, relevant, and high-potential effect ideas for you, complete with a predicted virality score.
                     </p>
                      <Button asChild className="font-semibold">
                         <Link href="/generator">
@@ -202,11 +202,11 @@ export default function LandingPage() {
                 <div className="space-y-4">
                      <Card className="bg-card transform hover:scale-105 transition-transform duration-300">
                         <CardHeader>
-                            <CardTitle>Retro Game Overlays</CardTitle>
-                            <CardDescription>Interactive 8-bit style games using face triggers.</CardDescription>
+                            <CardTitle>Invisible Dance Challenge AR</CardTitle>
+                            <CardDescription>Based on trending sound: #speedramp</CardDescription>
                         </CardHeader>
-                        <CardFooter className="flex justify-between">
-                            <span className="text-sm text-muted-foreground">Virality Score:</span>
+                        <CardFooter className="flex justify-between items-center">
+                            <span className="text-sm font-bold">🔥🔥🔥</span>
                             <span className="font-bold text-lg text-primary">88</span>
                         </CardFooter>
                     </Card>
@@ -215,8 +215,8 @@ export default function LandingPage() {
                             <CardTitle>AI Pet Sidekick</CardTitle>
                             <CardDescription>A cute, customizable AI creature that reacts to your expressions.</CardDescription>
                         </CardHeader>
-                        <CardFooter className="flex justify-between">
-                            <span className="text-sm text-muted-foreground">Virality Score:</span>
+                        <CardFooter className="flex justify-between items-center">
+                            <span className="text-sm font-bold">🔥🔥🔥🔥🔥</span>
                             <span className="font-bold text-lg text-primary">92</span>
                         </CardFooter>
                     </Card>
