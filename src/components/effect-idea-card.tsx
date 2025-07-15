@@ -53,42 +53,45 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
   };
 
   return (
-    <Card className="flex flex-col h-full shadow-md hover:shadow-primary/20 transition-shadow duration-300 bg-secondary/30 border-secondary">
+    <Card className="flex flex-col h-full shadow-md hover:shadow-primary/20 transition-shadow duration-300 bg-card border-border">
       <CardHeader>
-        <CardTitle className="font-headline">{idea.title}</CardTitle>
-        <CardDescription>{idea.description}</CardDescription>
+        <CardTitle className="font-headline text-xl">{idea.title}</CardTitle>
+        <CardDescription className="text-sm">{idea.description}</CardDescription>
       </CardHeader>
       <CardContent className="flex-grow space-y-4">
         {idea.viralityScore !== undefined && (
           <div className="space-y-2">
-            <h4 className="font-semibold text-sm flex items-center gap-2">
-              <TrendingUp className="text-primary" />
-              Virality Score: {idea.viralityScore}
-            </h4>
+            <div className='flex justify-between items-center'>
+              <h4 className="font-semibold text-sm flex items-center gap-2">
+                <TrendingUp className="text-primary" />
+                Virality Score
+              </h4>
+              <span className='font-bold text-lg text-foreground'>{idea.viralityScore}</span>
+            </div>
             <Progress value={idea.viralityScore} className="h-2" />
-            <p className="text-sm text-muted-foreground">{idea.predictionReasoning}</p>
+            <p className="text-xs text-muted-foreground italic">"{idea.predictionReasoning}"</p>
           </div>
         )}
         <div className="space-y-2">
             <h4 className="font-semibold text-sm">Implementation Hints</h4>
-            <p className="text-sm text-muted-foreground whitespace-pre-wrap">{currentHints}</p>
+            <p className="text-xs text-muted-foreground whitespace-pre-wrap font-mono bg-secondary/30 p-3 rounded-md">{currentHints}</p>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between items-center gap-2 pt-4 border-t border-secondary mt-auto">
+      <CardFooter className="flex justify-between items-center gap-2 pt-4 border-t border-border mt-auto">
         <Button variant="ghost" size="sm" onClick={handleGetMoreHints} disabled={isGettingHints} className="text-primary hover:text-primary hover:bg-primary/10">
           {isGettingHints ? (
-              <React.Fragment>
-                <Loader2 className="animate-spin mr-2" />
-                Getting hints...
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <Lightbulb className="mr-2" />
-                More Hints
-              </React.Fragment>
-            )}
+            <>
+              <Loader2 className="animate-spin" />
+              <span>Getting hints...</span>
+            </>
+          ) : (
+            <>
+              <Lightbulb />
+              <span>More Hints</span>
+            </>
+          )}
         </Button>
-        <Button variant={favorite ? 'secondary' : 'outline'} size="icon" onClick={handleFavoriteToggle} aria-label="Toggle Favorite">
+        <Button variant="ghost" size="icon" onClick={handleFavoriteToggle} aria-label="Toggle Favorite">
           <Heart className={`transition-colors duration-300 ${favorite ? 'text-red-500 fill-current' : 'text-muted-foreground'}`} />
         </Button>
       </CardFooter>

@@ -1,247 +1,55 @@
-'use client';
-
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { generateEffectIdeas } from '@/ai/flows/generate-effect-ideas';
-import { predictVirality } from '@/ai/flows/predict-virality';
-import type { EffectIdea } from '@/types';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { Loader2, Sparkles } from 'lucide-react';
-import { EffectIdeaCard } from '@/components/effect-idea-card';
-import { useToast } from '@/hooks/use-toast';
-import React from 'react';
+import { ArrowRight, Lightbulb, TrendingUp } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { TrendAnalyzerPreview } from '@/components/trend-analyzer-preview';
+import { IdeaGeneratorForm } from '@/components/idea-generator-form';
 
-const formSchema = z.object({
-  trendingStyles: z.string().min(10, {
-    message: 'Please describe the trending styles in at least 10 characters.',
-  }),
-  category: z.string().optional(),
-  theme: z.string().optional(),
-  creativeConstraints: z.string().optional(),
-});
-
-const categories = ['AR', 'Funny', 'Beauty', 'Gaming', 'Educational', 'Interactive', 'Green Screen'];
-const themes = ['Holidays', 'Music', 'Challenges', 'Fashion', 'Sci-Fi', 'Summer', 'Winter'];
-
-export default function Home() {
-  const [ideas, setIdeas] = useState<EffectIdea[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      trendingStyles: '',
-      category: '',
-      theme: '',
-      creativeConstraints: '',
-    },
-  });
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsLoading(true);
-    setIdeas([]);
-    try {
-      const result = await generateEffectIdeas(values);
-
-      const ideasWithVirality = await Promise.all(
-        result.effectIdeas.map(async (idea) => {
-          const viralityPrediction = await predictVirality({
-            title: idea.title,
-            description: idea.description,
-          });
-          return {
-            ...idea,
-            id: crypto.randomUUID(),
-            viralityScore: viralityPrediction.viralityScore,
-            predictionReasoning: viralityPrediction.predictionReasoning,
-          };
-        })
-      );
-      setIdeas(ideasWithVirality);
-
-    } catch (error) {
-      console.error('Error generating ideas:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Oh no! Something went wrong.',
-        description: 'There was a problem generating your ideas. Please try again.',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
+export default function DashboardPage() {
   return (
-    <div className="space-y-8">
-      <header>
-        <h1 className="text-3xl md:text-4xl font-bold font-headline text-foreground">
-          AI Effect Generator
+    <div className="space-y-12">
+      <header className="text-center">
+        <h1 className="text-4xl md:text-5xl font-bold font-headline text-foreground tracking-tight">
+          Welcome to EffectSpark
         </h1>
-        <p className="text-muted-foreground mt-2">
-          Spark your creativity. Describe trending styles and let our AI
-          generate viral TikTok effect ideas for you.
+        <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+          Your AI-powered co-creator for viral TikTok effects. Analyze trends,
+          generate ideas, and spark your next masterpiece.
         </p>
       </header>
 
-      <Card className="shadow-lg bg-card border-border">
-        <CardHeader>
-          <CardTitle>Generate New Ideas</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="trendingStyles"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Prompt</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="e.g., 'Generate face-tracking filter ideas for summer 2025', 'retro-futurism ideas', 'interactive AR games'..."
-                        className="resize-y min-h-[100px]"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Describe the kind of effect ideas you're looking for. Be as specific as you like.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-               <FormField
-                control={form.control}
-                name="creativeConstraints"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Creative Constraints (Optional)</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="e.g., 'must use face mesh only', 'hand gestures only', 'no external assets'..."
-                        className="resize-y"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Add any limitations or specific features to include.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
-                  control={form.control}
-                  name="category"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Category (Optional)</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a category" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {categories.map((cat) => (
-                            <SelectItem key={cat} value={cat}>
-                              {cat}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="theme"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Theme (Optional)</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a theme" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {themes.map((theme) => (
-                            <SelectItem key={theme} value={theme}>
-                              {theme}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <Button type="submit" disabled={isLoading} className="w-full md:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
-                {isLoading ? (
-                  <React.Fragment>
-                    <Loader2 className="animate-spin" />
-                    <span className="ml-2">Generating...</span>
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment>
-                    <Sparkles className="mr-2" />
-                    <span>Spark Ideas</span>
-                  </React.Fragment>
-                )}
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <Card className="bg-card border-border shadow-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Lightbulb className="text-primary" />
+              <span>Quick Idea Generator</span>
+            </CardTitle>
+            <CardDescription>
+              Get a few ideas instantly, or go to the full generator for more options.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <IdeaGeneratorForm quickForm={true} />
+          </CardContent>
+        </Card>
 
-      {isLoading && (
-        <div className="text-center py-10">
-          <Loader2 className="mx-auto h-12 w-12 animate-spin text-primary" />
-          <p className="mt-4 text-muted-foreground">
-            Our AI is brainstorming and predicting virality... this might take a moment.
-          </p>
-        </div>
-      )}
+        <Card className="bg-card border-border shadow-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="text-primary" />
+              <span>Trending Now</span>
+            </CardTitle>
+            <CardDescription>
+              A snapshot of the hottest trends on TikTok.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <TrendAnalyzerPreview />
+          </CardContent>
+        </Card>
+      </div>
 
-      {ideas.length > 0 && (
-        <section className="space-y-4">
-            <h2 className="text-2xl font-bold font-headline">Generated Ideas</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in-50">
-                {ideas.map((idea) => (
-                    <EffectIdeaCard key={idea.id} idea={idea} />
-                ))}
-            </div>
-        </section>
-      )}
     </div>
   );
 }
