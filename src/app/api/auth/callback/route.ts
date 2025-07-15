@@ -1,7 +1,8 @@
+
 'use server';
 import { NextResponse, type NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
-import { IronSession, getIronSession } from 'iron-session';
+import { getIronSession } from 'iron-session';
 import { sessionOptions } from '@/lib/session';
 
 export async function GET(request: NextRequest) {
@@ -23,6 +24,7 @@ export async function GET(request: NextRequest) {
   const REDIRECT_URI = process.env.TIKTOK_REDIRECT_URI;
 
   if (!TIKTOK_CLIENT_KEY || !TIKTOK_CLIENT_SECRET || !REDIRECT_URI) {
+    console.error('TikTok app credentials or redirect URI not configured.');
     return NextResponse.json({ error: 'TikTok app credentials or redirect URI not configured.' }, { status: 500 });
   }
 
@@ -45,7 +47,7 @@ export async function GET(request: NextRequest) {
     const data = await response.json();
 
     if (!response.ok) {
-        console.error('TikTok API Error:', data);
+        console.error('TikTok API Error during token exchange:', data);
         return NextResponse.json({ error: 'Failed to fetch access token', details: data }, { status: 500 });
     }
 

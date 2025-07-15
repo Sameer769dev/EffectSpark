@@ -36,12 +36,42 @@ type UserProfile = {
 
 // TikTok Icon SVG
 const TikTokIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 288 332" {...props}>
-        <path fill="#00FFFF" d="M81.5 194.1c-5.8-3.4-11.9-6.2-18-8.4v-56.1c3.5 1.1 6.8 2.3 10.2 3.6v-57.9c-3.4-.9-6.8-1.8-10.2-2.7V19.9c32.3 0 59.4 26.9 59.4 60.2 0 33.3-27.1 60.2-59.4 60.2-1.5 0-3-.1-4.4-.2v56.5c24.4 9.1 47.9 20.3 69.1 34.3v-58.3c-20.4-12.8-42.3-24.3-64.7-33.4z"></path>
-        <path fill="#A020F0" d="M149.2 0v180.6c-26.2 15.3-54.7 26.9-84.7 34.3V158c29.1-7.2 56.4-19.1 80.3-34.3V0h4.4z"></path>
-        <path fill="#FFFFFF" d="M208.6 19.9v57.9c-3.4 1-6.8 1.9-10.2 2.7v57.9c3.4-1.2 6.8-2.5 10.2-3.6v56.1c-6.1 2.2-12.2 5-18 8.4-22.4 9.1-44.3 20.6-64.7 33.4v58.3c21.2-14 44.7-25.2 69.1-34.3 26-9.6 51.5-22.1 74.3-37.2 22.9-15.1 43.1-33.1 60.2-53.5 17.1-20.4 30.6-43.7 39.9-69.1 1.5-4.1 2.9-8.2 4.1-12.4h-58.3c-1.2 3.8-2.5 7.6-4.1 11.3-8.8 23.8-22.1 45-39.2 63.1-17.1 18-36.8 33.4-58.8 45.8v-57.9c25.2-11.3 48.7-25.5 69.8-42.5 21.1-17.1 39.2-37.1 53.5-59.4 14.3-22.2 24.3-46.8 29.5-73.4h58.3c-9.1 26.6-22.8 51.2-40.6 73.4-17.8 22.2-38.9 41.5-62.8 57.2z"></path>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97v7.48c0 2.9-2.32 5.23-5.17 5.23-2.81 0-5.1-2.3-5.1-5.18 0-2.86 2.32-5.17 5.1-5.17.06 0 .12.01.18.01v4.02c-.18-.01-.36-.02-.53-.02-1.09 0-1.97.9-1.97 2.02 0 1.14.9 2.03 1.97 2.03 1.1 0 1.97-.9 1.97-2.03v-7.42c.31.02.62.03.92.03.22 0 .44-.01.66-.02v-4.02c-.22.01-.43.02-.64.02-1.31 0-2.62-.01-3.92-.02-.08-1.53-.62-3.09-1.75-4.17C8.9 1.11 7.33.6 5.9.42V0h6.625z"></path>
     </svg>
 )
+
+function LoggedOutState() {
+    return (
+        <div className="flex justify-center items-center min-h-[60vh]">
+            <Card className="w-full max-w-sm text-center">
+                <CardHeader>
+                    <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
+                        <TikTokIcon className="h-10 w-10 text-primary" />
+                    </div>
+                    <CardTitle>Welcome to EffectSpark</CardTitle>
+                    <CardDescription>
+                        Connect your TikTok account to get started.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Button asChild className="w-full">
+                        <Link href="/api/auth/tiktok">
+                            <TikTokIcon className="mr-2 h-5 w-5" />
+                            <span>Continue with TikTok</span>
+                        </Link>
+                    </Button>
+                </CardContent>
+                 <CardFooter>
+                    <p className="text-xs text-muted-foreground text-center w-full">
+                        We'll use your basic profile info to personalize your experience.
+                    </p>
+                </CardFooter>
+            </Card>
+        </div>
+    );
+}
+
 
 export default function ProfilePage() {
     const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -50,25 +80,43 @@ export default function ProfilePage() {
 
     useEffect(() => {
         async function fetchProfile() {
+            setIsLoading(true);
             try {
                 const res = await fetch('/api/user/profile');
                 if (res.ok) {
                     const data = await res.json();
-                    setProfile(data.user);
-                    if (!data.profileComplete) {
-                        router.push('/profile/create');
+                     if (data.isLoggedIn) {
+                        setProfile(data.user);
+                        if (!data.profileComplete) {
+                            router.replace('/profile/create');
+                        }
+                    } else {
+                        setProfile(null);
                     }
                 } else {
                    setProfile(null);
                 }
             } catch (error) {
                 console.error("Failed to fetch profile", error);
+                setProfile(null);
             } finally {
                 setIsLoading(false);
             }
         }
         fetchProfile();
     }, [router]);
+    
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <Loader2 className="h-16 w-16 animate-spin text-primary" />
+            </div>
+        )
+    }
+
+    if (!profile) {
+        return <LoggedOutState />;
+    }
 
   return (
     <div className="space-y-8">
@@ -85,14 +133,10 @@ export default function ProfilePage() {
         <div className="lg:col-span-1 space-y-8">
           <Card className="bg-card border-border">
             <CardHeader className="items-center text-center">
-             {isLoading ? (
-                 <Loader2 className="w-24 h-24 mb-4 animate-spin"/>
-             ) : (
               <Avatar className="w-24 h-24 mb-4 border-4 border-primary">
                 <AvatarImage src={profile?.avatar_url || "https://placehold.co/100x100.png"} data-ai-hint="creator avatar" alt={profile?.username || 'creator'} />
                 <AvatarFallback>{profile?.display_name?.charAt(0) || 'U'}</AvatarFallback>
               </Avatar>
-             )}
               <CardTitle className="text-2xl">{profile?.display_name || 'EffectHouse-User'}</CardTitle>
               <CardDescription>{profile ? `@${profile.username}` : 'Creator Account'}</CardDescription>
             </CardHeader>
@@ -107,50 +151,16 @@ export default function ProfilePage() {
                </div>
             </CardContent>
             {profile && (
-              <CardFooter>
+              <CardFooter className="flex-col space-y-2">
                   <Button variant="outline" asChild className="w-full">
-                      <Link href="/profile/create"><Edit /> Edit Profile</Link>
+                      <Link href="/profile/create"><Edit className="mr-2" /> Edit Profile</Link>
+                  </Button>
+                  <Button variant="destructive" asChild className="w-full">
+                        <Link href="/api/auth/logout">Unlink Account</Link>
                   </Button>
               </CardFooter>
             )}
           </Card>
-          
-          <Card className="bg-card border-border">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <LinkIcon />
-                Linked TikTok
-              </CardTitle>
-              <CardDescription>
-                Link your TikTok account to sync effects and data.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {isLoading ? (
-                <div className='flex justify-center items-center h-10'>
-                    <Loader2 className="animate-spin" />
-                </div>
-              ) : profile ? (
-                <div className="space-y-4">
-                    <div className="flex items-center gap-3 bg-secondary p-3 rounded-lg">
-                        <TikTokIcon className="h-6 w-6" />
-                        <span className="font-medium text-foreground">@{profile.username}</span>
-                    </div>
-                    <Button variant="outline" asChild className="w-full">
-                        <Link href="/api/auth/logout">Unlink Account</Link>
-                    </Button>
-                </div>
-              ) : (
-                <Button asChild className="w-full bg-black hover:bg-gray-800 text-white font-bold border border-gray-600">
-                    <Link href="/api/auth/tiktok">
-                        <TikTokIcon className="h-5 w-5" />
-                        <span>Login with TikTok</span>
-                    </Link>
-                </Button>
-              )}
-            </CardContent>
-          </Card>
-
         </div>
 
         <div className="lg:col-span-2">

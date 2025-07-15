@@ -25,6 +25,11 @@ export async function GET() {
 
     if (data.error.code !== 'ok') {
         console.error('TikTok User Info API Error:', data.error);
+        // If token is expired, we should log the user out.
+        if (data.error.code === 'access_token_invalid') {
+            session.destroy();
+            return NextResponse.json({ isLoggedIn: false, error: 'Access token expired' }, { status: 401 });
+        }
         return NextResponse.json({ error: 'Failed to fetch user info', details: data.error.message }, { status: 500 });
     }
 

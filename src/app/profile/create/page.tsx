@@ -71,20 +71,30 @@ export default function CreateProfilePage() {
         const res = await fetch('/api/user/profile');
         if (res.ok) {
           const data = await res.json();
-          setUser(data.user);
-          form.setValue('displayName', data.user.display_name);
+          if (data.isLoggedIn) {
+             setUser(data.user);
+             form.setValue('displayName', data.user.display_name);
+          } else {
+             router.push('/profile');
+          }
         } else {
           // If we can't fetch profile, maybe session expired.
           router.push('/profile');
         }
       } catch (error) {
         console.error('Failed to fetch user profile', error);
+         toast({
+            variant: 'destructive',
+            title: 'Uh oh! Something went wrong.',
+            description: 'Could not fetch your TikTok profile. Please try logging in again.',
+        });
+        router.push('/profile');
       } finally {
         setIsLoading(false);
       }
     }
     fetchUser();
-  }, [router, form]);
+  }, [router, form, toast]);
 
   async function onSubmit(data: ProfileFormValues) {
     try {
@@ -115,19 +125,19 @@ export default function CreateProfilePage() {
   
   if (isLoading || !user) {
       return (
-          <div className="flex justify-center items-center h-screen">
+          <div className="flex justify-center items-center min-h-screen">
               <Loader2 className="h-16 w-16 animate-spin text-primary" />
           </div>
       )
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen p-4">
-      <Card className="w-full max-w-2xl">
+    <div className="flex justify-center items-center min-h-screen p-4 bg-background">
+      <Card className="w-full max-w-2xl bg-card border-border">
         <CardHeader className="text-center">
           <Avatar className="w-24 h-24 mb-4 border-4 border-primary mx-auto">
             <AvatarImage src={user.avatar_url} />
-            <AvatarFallback>{user.display_name.charAt(0)}</AvatarFallback>
+            <AvatarFallback>{user.display_name?.charAt(0) || 'U'}</AvatarFallback>
           </Avatar>
           <CardTitle className="text-2xl">Welcome, {user.display_name}!</CardTitle>
           <CardDescription>
