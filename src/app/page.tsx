@@ -114,10 +114,10 @@ export default function LandingPage() {
             <h1 className="text-4xl md:text-6xl font-bold font-headline tracking-tight text-foreground animate-fade-in">
               Generate Viral TikTok Effect Ideas in Seconds – Powered by AI
             </h1>
-            <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground animate-fade-in delay-200">
+            <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground animate-fade-in" style={{ animationDelay: '0.2s' }}>
               Whether you're a beginner or pro, our AI inspires creative, trending AR filter ideas tailored just for TikTok.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4 animate-fade-in delay-400">
+            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.4s' }}>
               <Button asChild size="lg" className="font-semibold">
                 <Link href="/generator">
                   <Wand2 /> Try it Free
@@ -135,7 +135,7 @@ export default function LandingPage() {
         {/* How It Works */}
         <section id="how-it-works" className="py-20 bg-secondary/30">
           <div className="container">
-            <div className="text-center">
+            <div className="text-center animate-fade-in">
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
                 Turn Creativity into Virality – Here’s How
               </h2>
@@ -145,7 +145,7 @@ export default function LandingPage() {
               </p>
             </div>
             <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card className="text-center bg-card/50">
+              <Card className="text-center bg-card/50 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                 <CardHeader>
                   <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit">
                     <Lightbulb className="h-8 w-8 text-primary" />
@@ -156,7 +156,7 @@ export default function LandingPage() {
                   <p>Choose a vibe, trend, or creative constraint.</p>
                 </CardContent>
               </Card>
-              <Card className="text-center bg-card/50">
+              <Card className="text-center bg-card/50 animate-fade-in" style={{ animationDelay: '0.4s' }}>
                 <CardHeader>
                   <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit">
                     <Sparkles className="h-8 w-8 text-primary" />
@@ -167,7 +167,7 @@ export default function LandingPage() {
                   <p>Get tailored, ready-to-use effect prompts.</p>
                 </CardContent>
               </Card>
-              <Card className="text-center bg-card/50">
+              <Card className="text-center bg-card/50 animate-fade-in" style={{ animationDelay: '0.6s' }}>
                 <CardHeader>
                   <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit">
                     <TrendingUp className="h-8 w-8 text-primary" />
@@ -185,7 +185,7 @@ export default function LandingPage() {
         {/* Key Features */}
         <section id="features" className="py-20">
           <div className="container">
-            <div className="text-center">
+            <div className="text-center animate-fade-in">
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
                 Designed for TikTok Effect Creators
               </h2>
@@ -196,7 +196,7 @@ export default function LandingPage() {
             </div>
             <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featureCards.map((feature, index) => (
-                <Card key={index} className="bg-card/50 border-border/50 hover:border-primary/50 hover:bg-card transition-all text-left">
+                <Card key={index} className="bg-card/50 border-border/50 hover:border-primary/50 hover:bg-card transition-all text-left animate-fade-in" style={{ animationDelay: `${index * 0.2}s` }}>
                   <CardHeader>
                     <feature.icon className="h-8 w-8 text-primary mb-2" />
                     <CardTitle>{feature.title}</CardTitle>
@@ -213,7 +213,7 @@ export default function LandingPage() {
         {/* Trending Ideas Teaser */}
         <section className="py-20 bg-secondary/30">
             <div className="container grid lg:grid-cols-2 gap-12 items-center">
-                <div className="space-y-4">
+                <div className="space-y-4 animate-fade-in">
                     <h2 className="text-3xl md:text-4xl font-bold font-headline">What’s Hot Right Now?</h2>
                     <p className="text-muted-foreground text-lg">
                         Our AI analyzes the latest TikTok trends to generate fresh, relevant, and high-potential effect ideas for you, complete with a predicted virality score.
@@ -225,7 +225,7 @@ export default function LandingPage() {
                     </Button>
                 </div>
                 <div className="space-y-4">
-                     <Card className="bg-card animate-float">
+                     <Card className="bg-card animate-float animate-fade-in" style={{ animationDelay: '0.2s' }}>
                         <CardHeader>
                             <CardTitle>Invisible Dance Challenge AR</CardTitle>
                             <CardDescription>Based on trending sound: #speedramp</CardDescription>
@@ -235,7 +235,7 @@ export default function LandingPage() {
                             <span className="font-bold text-lg text-primary">88</span>
                         </CardFooter>
                     </Card>
-                    <Card className="bg-card animate-float [animation-delay:0.5s] ml-8">
+                    <Card className="bg-card animate-float [animation-delay:0.7s] ml-8 animate-fade-in" style={{ animationDelay: '0.4s' }}>
                         <CardHeader>
                             <CardTitle>AI Pet Sidekick</CardTitle>
                             <CardDescription>A cute, customizable AI creature that reacts to your expressions.</CardDescription>
@@ -252,13 +252,13 @@ export default function LandingPage() {
         {/* Testimonials */}
         <section id="testimonials" className="py-20">
           <div className="container">
-            <div className="text-center">
+            <div className="text-center animate-fade-in">
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
                 Loved by Creators Worldwide
               </h2>
             </div>
             <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card className="bg-card/50 border-border/50">
+              <Card className="bg-card/50 border-border/50 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                 <CardContent className="pt-6">
                   <p className="italic">"I built 3 effects this week with ideas from this tool – one already hit 500k views!"</p>
                 </CardContent>
@@ -279,7 +279,7 @@ export default function LandingPage() {
                   </div>
                 </CardHeader>
               </Card>
-               <Card className="bg-card/50 border-border/50">
+               <Card className="bg-card/50 border-border/50 animate-fade-in" style={{ animationDelay: '0.4s' }}>
                 <CardContent className="pt-6">
                   <p className="italic">“Finally a tool that thinks like a creative.”</p>
                 </CardContent>
@@ -300,7 +300,7 @@ export default function LandingPage() {
                   </div>
                 </CardHeader>
               </Card>
-              <Card className="bg-card/50 border-border/50">
+              <Card className="bg-card/50 border-border/50 animate-fade-in" style={{ animationDelay: '0.6s' }}>
                 <CardContent className="pt-6">
                   <p className="italic">"The implementation hints are a lifesaver. It helps me bridge the gap between a cool idea and a real effect."</p>
                 </CardContent>
@@ -327,7 +327,7 @@ export default function LandingPage() {
 
         {/* FAQ Section */}
         <section id="faq" className="py-20 bg-secondary/30">
-          <div className="container max-w-3xl mx-auto">
+          <div className="container max-w-3xl mx-auto animate-fade-in">
             <div className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
                 Frequently Asked Questions
@@ -347,13 +347,15 @@ export default function LandingPage() {
         {/* Final CTA */}
         <section className="py-20">
           <div className="container text-center">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline">
-              Ready to Go Viral?
-            </h2>
-            <p className="mt-2 text-muted-foreground max-w-xl mx-auto">
-              Join thousands of creators and supercharge your brainstorming process today.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+            <div className="animate-fade-in">
+              <h2 className="text-3xl md:text-4xl font-bold font-headline">
+                Ready to Go Viral?
+              </h2>
+              <p className="mt-2 text-muted-foreground max-w-xl mx-auto">
+                Join thousands of creators and supercharge your brainstorming process today.
+              </p>
+            </div>
+            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.2s' }}>
               <Button asChild size="lg" className="font-semibold">
                 <Link href="/generator">
                   <Rocket /> Generate My First Idea
