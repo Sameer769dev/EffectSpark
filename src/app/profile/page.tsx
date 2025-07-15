@@ -20,8 +20,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { AtSign, History, User, Link as LinkIcon, Rss, Loader2 } from 'lucide-react';
+import { AtSign, History, User, Link as LinkIcon, Rss, Loader2, Edit } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const effectHistory: any[] = [];
 
@@ -29,6 +30,8 @@ type UserProfile = {
     avatar_url: string;
     display_name: string;
     username: string;
+    creatorStyle?: string;
+    interests?: string;
 }
 
 // TikTok Icon SVG
@@ -43,6 +46,7 @@ const TikTokIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export default function ProfilePage() {
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
         async function fetchProfile() {
@@ -51,6 +55,11 @@ export default function ProfilePage() {
                 if (res.ok) {
                     const data = await res.json();
                     setProfile(data.user);
+                    if (!data.profileComplete) {
+                        router.push('/profile/create');
+                    }
+                } else {
+                   setProfile(null);
                 }
             } catch (error) {
                 console.error("Failed to fetch profile", error);
@@ -59,7 +68,7 @@ export default function ProfilePage() {
             }
         }
         fetchProfile();
-    }, []);
+    }, [router]);
 
   return (
     <div className="space-y-8">
@@ -76,10 +85,14 @@ export default function ProfilePage() {
         <div className="lg:col-span-1 space-y-8">
           <Card className="bg-card border-border">
             <CardHeader className="items-center text-center">
+             {isLoading ? (
+                 <Loader2 className="w-24 h-24 mb-4 animate-spin"/>
+             ) : (
               <Avatar className="w-24 h-24 mb-4 border-4 border-primary">
                 <AvatarImage src={profile?.avatar_url || "https://placehold.co/100x100.png"} data-ai-hint="creator avatar" alt={profile?.username || 'creator'} />
                 <AvatarFallback>{profile?.display_name?.charAt(0) || 'U'}</AvatarFallback>
               </Avatar>
+             )}
               <CardTitle className="text-2xl">{profile?.display_name || 'EffectHouse-User'}</CardTitle>
               <CardDescription>{profile ? `@${profile.username}` : 'Creator Account'}</CardDescription>
             </CardHeader>
@@ -90,9 +103,16 @@ export default function ProfilePage() {
                </div>
                 <div className="flex items-center gap-3">
                   <AtSign className="text-muted-foreground" />
-                   <span className='text-muted-foreground'>{profile ? `${profile.username}@tiktok.com` : 'user@example.com'}</span>
+                   <span className='text-muted-foreground'>{profile ? `@${profile.username}` : 'user@example.com'}</span>
                </div>
             </CardContent>
+            {profile && (
+              <CardFooter>
+                  <Button variant="outline" asChild className="w-full">
+                      <Link href="/profile/create"><Edit /> Edit Profile</Link>
+                  </Button>
+              </CardFooter>
+            )}
           </Card>
           
           <Card className="bg-card border-border">
@@ -184,4 +204,3 @@ export default function ProfilePage() {
     </div>
   );
 }
-

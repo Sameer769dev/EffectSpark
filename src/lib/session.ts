@@ -1,5 +1,5 @@
+
 import type { IronSessionOptions } from 'iron-session';
-import { type User } from '@/types';
 
 export const sessionOptions: IronSessionOptions = {
   password: process.env.SECRET_COOKIE_PASSWORD as string,
@@ -9,10 +9,19 @@ export const sessionOptions: IronSessionOptions = {
   },
 };
 
+// This is the shape of the data that will be stored in the session.
+type AppSession = {
+  isLoggedIn?: boolean;
+  accessToken?: string;
+  refreshToken?: string;
+  profileComplete?: boolean;
+  userProfile?: {
+    displayName: string;
+    creatorStyle: string;
+    interests: string;
+  };
+};
+
 declare module 'iron-session' {
-  interface IronSessionData {
-    isLoggedIn?: boolean;
-    accessToken?: string;
-    refreshToken?: string;
-  }
+  interface IronSessionData extends AppSession {}
 }

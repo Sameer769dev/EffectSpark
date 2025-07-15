@@ -1,3 +1,4 @@
+
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getIronSession } from 'iron-session';
@@ -27,7 +28,17 @@ export async function GET() {
         return NextResponse.json({ error: 'Failed to fetch user info', details: data.error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ user: data.data.user });
+    // Combine TikTok user data with our app's profile data from the session
+    const fullProfile = {
+      ...data.data.user,
+      ...session.userProfile,
+    };
+
+    return NextResponse.json({ 
+        user: fullProfile, 
+        isLoggedIn: true,
+        profileComplete: session.profileComplete 
+    });
 
   } catch (error) {
     console.error('Error fetching user profile:', error);

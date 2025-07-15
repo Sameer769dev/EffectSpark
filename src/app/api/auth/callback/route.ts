@@ -1,3 +1,4 @@
+'use server';
 import { NextResponse, type NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 import { IronSession, getIronSession } from 'iron-session';
@@ -52,9 +53,17 @@ export async function GET(request: NextRequest) {
     session.accessToken = data.access_token;
     session.refreshToken = data.refresh_token;
     session.isLoggedIn = true;
+    
+    // We will set profileComplete to false by default.
+    // The user will be redirected to a creation page to complete it.
+    session.profileComplete = session.profileComplete || false;
+    
     await session.save();
+    
+    // After login, redirect to profile creation if not complete, otherwise to generator
+    const redirectUrl = session.profileComplete ? '/generator' : '/profile/create';
 
-    return NextResponse.redirect(new URL('/profile', request.url));
+    return NextResponse.redirect(new URL(redirectUrl, request.url));
   } catch (error) {
     console.error('Error during token exchange:', error);
     return NextResponse.json({ error: 'Internal server error during token exchange.' }, { status: 500 });
