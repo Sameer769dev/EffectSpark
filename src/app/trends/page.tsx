@@ -99,7 +99,7 @@ export default function TrendsPage() {
                   <CardTitle className="font-headline text-2xl">
                     {trend.name}
                   </CardTitle>
-                  <Badge variant="outline">{trend.category}</Badge>
+                  <Badge variant="outline" className="border-accent text-accent">{trend.category}</Badge>
                 </div>
                 <CardDescription>{trend.description}</CardDescription>
               </CardHeader>

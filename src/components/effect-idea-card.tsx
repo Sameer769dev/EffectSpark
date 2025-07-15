@@ -74,10 +74,10 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
         )}
         <div className="space-y-2">
             <h4 className="font-semibold text-sm">Implementation Hints</h4>
-            <p className="text-xs text-muted-foreground whitespace-pre-wrap font-mono bg-secondary/30 p-3 rounded-md">{currentHints}</p>
+            <p className="text-xs text-muted-foreground whitespace-pre-wrap font-mono bg-muted/30 p-3 rounded-md">{currentHints}</p>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between items-center gap-2 pt-4 border-t border-border mt-auto">
+      <CardFooter className="flex justify-between items-center gap-2 pt-4 border-t mt-auto">
         <Button variant="ghost" size="sm" onClick={handleGetMoreHints} disabled={isGettingHints} className="text-primary hover:text-primary hover:bg-primary/10">
           {isGettingHints ? (
             <>
@@ -92,7 +92,7 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
           )}
         </Button>
         <Button variant="ghost" size="icon" onClick={handleFavoriteToggle} aria-label="Toggle Favorite">
-          <Heart className={`transition-colors duration-300 ${favorite ? 'text-red-500 fill-current' : 'text-muted-foreground'}`} />
+          <Heart className={`transition-colors duration-300 ${favorite ? 'text-primary fill-current' : 'text-muted-foreground'}`} />
         </Button>
       </CardFooter>
     </Card>
