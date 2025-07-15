@@ -1,6 +1,6 @@
 'use client';
 
-import { BarChart, Heart, Sparkles } from 'lucide-react';
+import { BarChart, Heart, Sparkles, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 
 const navLinks = [
   { href: '/', label: 'Generator', icon: Sparkles },
+  { href: '/trends', label: 'Trend Analyzer', icon: TrendingUp },
   { href: '/favorites', label: 'Favorites', icon: Heart },
   { href: '/creators', label: 'Top Creators', icon: BarChart },
 ];

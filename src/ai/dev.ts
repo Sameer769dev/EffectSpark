@@ -3,3 +3,4 @@ config();
 
 import '@/ai/flows/suggest-implementation-hints.ts';
 import '@/ai/flows/generate-effect-ideas.ts';
+import '@/ai/flows/analyze-trends.ts';
