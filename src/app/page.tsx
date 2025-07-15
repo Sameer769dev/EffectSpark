@@ -32,7 +32,6 @@ import {
 import Image from 'next/image';
 import { AnimatedDiv } from '@/components/animated-div';
 import { cn } from '@/lib/utils';
-import { ScrollLottieAnimation } from '@/components/scroll-lottie-animation';
 import React from 'react';
 import { MagneticButton } from '@/components/magnetic-button';
 
@@ -166,8 +165,7 @@ export default function LandingPage() {
                 lifting.
               </p>
             </AnimatedDiv>
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-24 items-center">
-              <div className="space-y-8">
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                 <AnimatedDiv style={{ animationDelay: '0.2s' }}>
                   <Card className="text-center bg-card/50 group h-full transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2 hover:shadow-lg">
                     <CardHeader>
@@ -207,10 +205,6 @@ export default function LandingPage() {
                     </CardContent>
                   </Card>
                 </AnimatedDiv>
-              </div>
-              <AnimatedDiv className="hidden md:block">
-                  <ScrollLottieAnimation />
-              </AnimatedDiv>
             </div>
           </div>
         </section>
