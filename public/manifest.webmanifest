@@ -1,0 +1,9 @@
+{
+  "name": "EffectSpark",
+  "short_name": "EffectSpark",
+  "description": "AI-powered inspiration for TikTok Effect Creators",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1E1B2E",
+  "theme_color": "#1E1B2E"
+}
