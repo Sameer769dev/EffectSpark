@@ -4,7 +4,6 @@ import { BarChart, Heart, Sparkles, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 
 const navLinks = [
   { href: '/', label: 'Generator', icon: Sparkles },
@@ -26,7 +25,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
               <span className="font-bold font-headline text-lg">EffectSpark</span>
             </Link>
             <nav className="hidden md:flex items-center gap-6 text-sm">
-              {navLinks.map(({ href, label, icon: Icon }) => (
+              {navLinks.map(({ href, label }) => (
                 <Link
                   key={href}
                   href={href}

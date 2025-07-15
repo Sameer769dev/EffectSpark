@@ -172,15 +172,15 @@ export default function Home() {
               </div>
               <Button type="submit" disabled={isLoading} className="w-full md:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
                 {isLoading ? (
-                  <React.Fragment>
+                  <>
                     <Loader2 className="animate-spin" />
                     <span className="ml-2">Generating...</span>
-                  </React.Fragment>
+                  </>
                 ) : (
-                  <React.Fragment>
+                  <>
                     <Sparkles className="mr-2" />
                     <span>Spark Ideas</span>
-                  </React.Fragment>
+                  </>
                 )}
               </Button>
             </form>

@@ -65,14 +65,17 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
       </CardContent>
       <CardFooter className="flex justify-between items-center gap-2 pt-4 border-t border-secondary mt-auto">
         <Button variant="ghost" size="sm" onClick={handleGetMoreHints} disabled={isGettingHints} className="text-primary hover:text-primary hover:bg-primary/10">
-          <React.Fragment>
-            {isGettingHints ? (
-              <Loader2 className="animate-spin mr-2" />
+          {isGettingHints ? (
+              <>
+                <Loader2 className="animate-spin mr-2" />
+                Getting hints...
+              </>
             ) : (
-              <Lightbulb className="mr-2" />
+              <>
+                <Lightbulb className="mr-2" />
+                More Hints
+              </>
             )}
-            More Hints
-          </React.Fragment>
         </Button>
         <Button variant={favorite ? 'secondary' : 'outline'} size="icon" onClick={handleFavoriteToggle} aria-label="Toggle Favorite">
           <Heart className={`transition-colors duration-300 ${favorite ? 'text-red-500 fill-current' : 'text-muted-foreground'}`} />
