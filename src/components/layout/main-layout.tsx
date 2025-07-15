@@ -45,7 +45,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           </nav>
         </div>
       </header>
-      <main className="flex-1">
+      <main className="flex-1 pb-20 md:pb-0">
         <div className="container max-w-screen-2xl py-8">{children}</div>
       </main>
       <footer className="md:hidden sticky bottom-0 z-50 mt-auto border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -55,7 +55,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
               key={href}
               href={href}
               className={cn(
-                'flex flex-col items-center gap-1 transition-colors hover:text-primary w-16',
+                'flex flex-col items-center justify-center gap-1 transition-colors hover:text-primary w-16 h-full',
                 pathname === href ? 'text-primary' : 'text-muted-foreground'
               )}
             >
