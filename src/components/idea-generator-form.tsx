@@ -28,6 +28,7 @@ import { generateEffectIdeas } from '@/ai/flows/generate-effect-ideas';
 import { predictVirality } from '@/ai/flows/predict-virality';
 import type { EffectIdea } from '@/types';
 import { useRouter } from 'next/navigation';
+import { useSavedPrompts } from '@/hooks/use-saved-prompts';
 
 const formSchema = z.object({
   trendingStyles: z.string().min(10, {
@@ -79,6 +80,7 @@ export function IdeaGeneratorForm({
   setPrompt
 }: IdeaGeneratorFormProps) {
   const router = useRouter();
+  const { addPrompt } = useSavedPrompts();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -101,6 +103,7 @@ export function IdeaGeneratorForm({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (quickForm) {
       const queryString = new URLSearchParams(values as Record<string, string>).toString();
+      addPrompt(values.trendingStyles);
       router.push(`/generator?${queryString}`);
       return;
     }
@@ -125,6 +128,7 @@ export function IdeaGeneratorForm({
         })
       );
       setIdeas?.(ideasWithVirality);
+      addPrompt(values.trendingStyles);
     } catch (error) {
       console.error('Error generating ideas:', error);
       toast?.({
@@ -136,6 +140,12 @@ export function IdeaGeneratorForm({
     } finally {
       setIsLoading?.(false);
       setPrompt?.('');
+      form.reset({
+        trendingStyles: '',
+        category: form.getValues('category'),
+        theme: form.getValues('theme'),
+        creativeConstraints: form.getValues('creativeConstraints'),
+      });
     }
   }
 

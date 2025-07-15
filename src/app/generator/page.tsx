@@ -8,6 +8,7 @@ import { Loader2 } from 'lucide-react';
 import { EffectIdeaCard } from '@/components/effect-idea-card';
 import { IdeaGeneratorForm } from '@/components/idea-generator-form';
 import { InspirationalPrompts } from '@/components/inspirational-prompts';
+import { SavedPrompts } from '@/components/saved-prompts';
 
 export default function GeneratorPage() {
   const [ideas, setIdeas] = useState<EffectIdea[]>([]);
@@ -50,7 +51,10 @@ export default function GeneratorPage() {
       )}
 
       {!isLoading && ideas.length === 0 && (
-        <InspirationalPrompts onPromptSelect={handlePromptSelect} />
+        <div className="space-y-8">
+          <SavedPrompts onPromptSelect={handlePromptSelect} />
+          <InspirationalPrompts onPromptSelect={handlePromptSelect} />
+        </div>
       )}
 
       {ideas.length > 0 && (
