@@ -1,4 +1,3 @@
-// src/ai/flows/suggest-implementation-hints.ts
 'use server';
 
 /**
@@ -44,7 +43,16 @@ const suggestImplementationHintsFlow = ai.defineFlow(
     outputSchema: SuggestImplementationHintsOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    try {
+        const {output} = await prompt(input);
+        return output!;
+    } catch (error: any) {
+        if (error.status === 503) {
+            console.warn('Primary model overloaded, switching to fallback.');
+            const {output} = await prompt(input, { model: 'googleai/gemini-1.5-flash-latest' });
+            return output!;
+        }
+        throw error;
+    }
   }
 );

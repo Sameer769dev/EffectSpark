@@ -48,7 +48,18 @@ const analyzeTrendsFlow = ai.defineFlow(
     outputSchema: TrendAnalysisOutputSchema,
   },
   async () => {
-    const { output } = await analyzeTrendsPrompt();
-    return output!;
+    try {
+      const { output } = await analyzeTrendsPrompt();
+      return output!;
+    } catch (error: any) {
+      if (error.status === 503) {
+        console.warn('Primary model overloaded, switching to fallback.');
+        const { output } = await analyzeTrendsPrompt({
+          model: 'googleai/gemini-1.5-flash-latest'
+        });
+        return output!;
+      }
+      throw error;
+    }
   }
 );

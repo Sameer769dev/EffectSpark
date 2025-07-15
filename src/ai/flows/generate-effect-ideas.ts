@@ -1,4 +1,3 @@
-// src/ai/flows/generate-effect-ideas.ts
 'use server';
 
 /**
@@ -71,9 +70,6 @@ const generateEffectIdeasPrompt = ai.definePrompt({
   {{/if}}
 
   Ensure that the generated effect ideas are diverse and suitable for a wide range of TikTok users. Focus on originality and potential virality.
-
-  Format your response as a JSON object conforming to the following schema:
-  ${JSON.stringify(GenerateEffectIdeasOutputSchema.describe(''))}
   `,
 });
 
@@ -84,7 +80,20 @@ const generateEffectIdeasFlow = ai.defineFlow(
     outputSchema: GenerateEffectIdeasOutputSchema,
   },
   async input => {
-    const {output} = await generateEffectIdeasPrompt(input);
-    return output!;
+    try {
+      const {output} = await generateEffectIdeasPrompt(input);
+      return output!;
+    } catch (error: any) {
+      if (error.status === 503) {
+        console.warn('Primary model overloaded, switching to fallback.');
+        const {output} = await generateEffectIdeasPrompt({
+            ...input
+        }, {
+            model: 'googleai/gemini-1.5-flash-latest'
+        });
+        return output!;
+      }
+      throw error;
+    }
   }
 );
