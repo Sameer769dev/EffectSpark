@@ -42,7 +42,15 @@ export default function LoginPage() {
                 </CardContent>
                  <CardFooter>
                     <p className="text-xs text-muted-foreground text-center w-full">
-                        We'll use your basic profile info to personalize your experience.
+                       By signing in, you agree to our{' '}
+                        <Link href="/terms" className="underline hover:text-primary">
+                            Terms of Service
+                        </Link>{' '}
+                        and{' '}
+                        <Link href="/privacy" className="underline hover:text-primary">
+                            Privacy Policy
+                        </Link>
+                        .
                     </p>
                 </CardFooter>
             </Card>
