@@ -16,6 +16,9 @@ export async function POST(request: NextRequest) {
   // You would typically save this to a database here.
   // For this example, we'll save it to the session.
   session.userProfile = {
+    // Keep existing google info
+    ...session.userProfile,
+    // Add app-specific info
     displayName,
     creatorStyle,
     interests,

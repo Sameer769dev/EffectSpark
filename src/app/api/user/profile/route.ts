@@ -1,3 +1,4 @@
+
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getIronSession } from 'iron-session';
@@ -6,51 +7,26 @@ import { sessionOptions } from '@/lib/session';
 export async function GET() {
   const session = await getIronSession(cookies(), sessionOptions);
 
-  if (!session.isLoggedIn || !session.accessToken) {
+  if (!session.isLoggedIn) {
     return NextResponse.json({ isLoggedIn: false }, { status: 401 });
   }
 
-  try {
-    const userinfoUrl = 'https://www.googleapis.com/oauth2/v3/userinfo';
+  // If access token has expired, a robust app would use the refresh token here.
+  // For this example, we just check if the session exists.
 
-    const response = await fetch(userinfoUrl, {
-      headers: {
-        'Authorization': `Bearer ${session.accessToken}`,
-      },
-    });
-
-    const data = await response.json();
-
-    if (data.error) {
-        console.error('Google User Info API Error:', data.error_description);
-        // A common error is an expired token.
-        // A more robust implementation would use the refresh token here.
-        // For now, we'll just log the user out.
-        session.destroy();
-        return NextResponse.json({ isLoggedIn: false, error: 'Access token invalid' }, { status: 401 });
-    }
-
-    // Map Google's `picture` to `avatar_url` and `name` to `display_name` to match our app's convention
-    const googleProfile = {
-      avatar_url: data.picture,
-      display_name: data.name,
-      username: data.email, // Use email as a stable username
-    };
-
-    // Combine Google user data with our app's profile data from the session
-    const fullProfile = {
-      ...googleProfile,
+  // The full profile is now stored in the session, so we can just return it.
+  // This avoids making a new call to Google on every page load.
+  const fullProfile = {
       ...session.userProfile,
-    };
+      // Ensure display_name and avatar_url are consistent for the client
+      display_name: session.userProfile?.displayName || session.userProfile?.display_name,
+      avatar_url: session.userProfile?.avatar_url,
+      username: session.userProfile?.username,
+  };
 
-    return NextResponse.json({ 
-        user: fullProfile, 
-        isLoggedIn: true,
-        profileComplete: session.profileComplete 
-    });
-
-  } catch (error) {
-    console.error('Error fetching user profile:', error);
-    return NextResponse.json({ error: 'Internal server error fetching profile.' }, { status: 500 });
-  }
+  return NextResponse.json({ 
+      user: fullProfile, 
+      isLoggedIn: true,
+      profileComplete: session.profileComplete 
+  });
 }

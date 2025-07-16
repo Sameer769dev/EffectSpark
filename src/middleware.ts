@@ -13,7 +13,6 @@ const publicPaths = [
   '/careers',
   '/privacy',
   '/terms',
-  // API routes are handled separately but good to list public ones if any.
   '/api/auth/google',
   '/api/auth/callback',
 ];
@@ -22,9 +21,10 @@ const isPublic = (path: string) => {
   if (publicPaths.includes(path)) {
     return true;
   }
-  // Allow API routes to be accessed without auth checks in middleware,
-  // as they may be called by public pages or have their own auth checks.
-  if (path.startsWith('/api/')) {
+  // Allow INTERNAL API routes to be accessed without auth checks in middleware,
+  // as they will be called by pages which are already protected.
+  // The logout route is an exception as it's called directly.
+  if (path.startsWith('/api/') && path !== '/api/auth/logout') {
       return true;
   }
   // Allow static assets and image optimization routes
@@ -78,6 +78,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Match all paths except for specific static files like favicon.ico.
+  // Match all paths except for specific static files.
   matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };

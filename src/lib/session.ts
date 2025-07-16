@@ -21,6 +21,9 @@ declare module 'iron-session' {
       displayName: string;
       creatorStyle: string;
       interests: string;
+      // Adding Google profile info directly here for consistency
+      avatar_url?: string;
+      username?: string; // This will store the email
     };
   }
 }

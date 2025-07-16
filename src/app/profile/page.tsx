@@ -24,16 +24,11 @@ import { AtSign, History, User, Rss, Loader2, Edit, LogOut } from 'lucide-react'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
+import type { IronSessionData } from 'iron-session';
 
 const effectHistory: any[] = [];
 
-type UserProfile = {
-    avatar_url: string;
-    display_name: string;
-    username: string;
-    creatorStyle?: string;
-    interests?: string;
-}
+type UserProfile = IronSessionData['userProfile'];
 
 export default function ProfilePage() {
     const [profile, setProfile] = useState<UserProfile | null>(null);

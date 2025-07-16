@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -32,14 +33,11 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, User } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import type { IronSessionData } from 'iron-session';
 
-type UserProfile = {
-  avatar_url: string;
-  display_name: string;
-  username: string;
-};
+type UserProfile = IronSessionData['userProfile'];
 
 const profileFormSchema = z.object({
   displayName: z.string().min(2, 'Display name must be at least 2 characters.'),
@@ -77,7 +75,10 @@ export default function CreateProfilePage() {
                 return;
              }
              setUser(data.user);
-             form.setValue('displayName', data.user.display_name);
+             // Populate form with data from session
+             form.setValue('displayName', data.user.display_name || data.user.displayName || '');
+             form.setValue('creatorStyle', data.user.creatorStyle || '');
+             form.setValue('interests', data.user.interests || '');
           } else {
              router.replace('/login');
           }
@@ -90,7 +91,7 @@ export default function CreateProfilePage() {
          toast({
             variant: 'destructive',
             title: 'Uh oh! Something went wrong.',
-            description: 'Could not fetch your Google profile. Please try logging in again.',
+            description: 'Could not fetch your profile. Please try logging in again.',
         });
         router.replace('/login');
       } finally {

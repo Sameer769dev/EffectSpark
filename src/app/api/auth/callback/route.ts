@@ -40,37 +40,59 @@ export async function GET(request: NextRequest) {
         grant_type: 'authorization_code',
     });
     
-    const response = await fetch(tokenUrl, {
+    const tokenResponse = await fetch(tokenUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: body.toString(),
     });
 
-    const data = await response.json();
+    const tokenData = await tokenResponse.json();
 
-    if (!response.ok) {
-        console.error('Google API Error during token exchange:', data);
-        return NextResponse.json({ error: 'Failed to fetch access token', details: data }, { status: 500 });
+    if (!tokenResponse.ok) {
+        console.error('Google API Error during token exchange:', tokenData);
+        return NextResponse.json({ error: 'Failed to fetch access token', details: tokenData }, { status: 500 });
+    }
+
+    // Now fetch user info
+    const userinfoUrl = 'https://www.googleapis.com/oauth2/v3/userinfo';
+    const userinfoResponse = await fetch(userinfoUrl, {
+      headers: { 'Authorization': `Bearer ${tokenData.access_token}` },
+    });
+    const userInfo = await userinfoResponse.json();
+
+    if (userInfo.error) {
+        console.error('Google User Info API Error:', userInfo.error_description);
+        return NextResponse.json({ error: 'Failed to fetch user info' }, { status: 500 });
     }
 
     const session = await getIronSession(cookies(), sessionOptions);
-    session.accessToken = data.access_token;
-    session.refreshToken = data.refresh_token;
-    session.isLoggedIn = true;
     
-    // For a new login, we assume the profile is not yet complete.
-    // The middleware will handle redirecting to /profile/create if this is not updated.
-    // We check if it exists to preserve the state for returning users.
+    session.isLoggedIn = true;
+    session.accessToken = tokenData.access_token;
+    session.refreshToken = tokenData.refresh_token;
+    
+    // Check if the user already has a profile in our system (e.g., from a database)
+    // For this example, we'll assume a new login requires profile setup unless session says otherwise.
+    // A robust implementation would query a DB with userInfo.sub or userInfo.email
+    
+    // We store basic Google info in the session to create the profile page
+    session.userProfile = {
+      ...(session.userProfile || {}), // Preserve existing app-specific profile data if any
+      avatar_url: userInfo.picture,
+      display_name: userInfo.name,
+      username: userInfo.email,
+    };
+    
+    // If profileComplete is not explicitly true, it's considered incomplete.
     session.profileComplete = session.profileComplete || false; 
     
-    await session.save(); // This is the critical step to save the session cookie.
+    await session.save();
     
     const redirectPath = session.profileComplete ? '/generator' : '/profile/create';
-
     return NextResponse.redirect(new URL(redirectPath, request.url));
 
   } catch (error) {
-    console.error('Error during token exchange:', error);
-    return NextResponse.json({ error: 'Internal server error during token exchange.' }, { status: 500 });
+    console.error('Error during authentication flow:', error);
+    return NextResponse.json({ error: 'Internal server error during authentication.' }, { status: 500 });
   }
 }
