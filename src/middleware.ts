@@ -20,24 +20,29 @@ const isPublic = (path: string) => {
   if (publicPaths.includes(path)) {
     return true;
   }
+  // Allow API routes to be accessed without auth checks in middleware
+  if (path.startsWith('/api/')) {
+      return true;
+  }
+  // Allow static assets and image optimization routes
+  if (path.startsWith('/_next') || path.startsWith('/static') || /\.(png|ico|webmanifest|svg|jpg)$/.test(path)) {
+    return true;
+  }
   return false;
 };
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   
-  // Allow all requests for static files, images, and API routes to pass through.
-  if (path.startsWith('/_next') || path.startsWith('/static') || path.startsWith('/api/') || /\.(png|ico|webmanifest|svg|jpg)$/.test(path)) {
+  if (isPublic(path)) {
     return NextResponse.next();
   }
 
   const session = await getIronSession(cookies(), sessionOptions);
   const { isLoggedIn, profileComplete } = session;
 
-  const isPublicPage = isPublic(path);
-
-  // If user is not logged in and trying to access a protected page
-  if (!isLoggedIn && !isPublicPage) {
+  // If user is not logged in, redirect to login page
+  if (!isLoggedIn) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     // Preserve the original destination to redirect after login
@@ -45,20 +50,18 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // If user is logged in
-  if (isLoggedIn) {
-    // and profile is not complete, force profile creation
-    if (!profileComplete) {
-      if (path !== '/profile/create') {
-        return NextResponse.redirect(new URL('/profile/create', request.url));
-      }
-    } 
-    // if profile is complete
-    else {
-      // prevent them from accessing login or profile creation pages.
-      if (path === '/login' || path === '/profile/create') {
-        return NextResponse.redirect(new URL('/generator', request.url));
-      }
+  // If user is logged in but profile is not complete
+  if (!profileComplete) {
+    // and they are not trying to create their profile, redirect them
+    if (path !== '/profile/create') {
+      return NextResponse.redirect(new URL('/profile/create', request.url));
+    }
+  } 
+  // If user is logged in and profile is complete
+  else {
+    // but they are trying to access login or profile creation, redirect them away
+    if (path === '/login' || path === '/profile/create') {
+      return NextResponse.redirect(new URL('/generator', request.url));
     }
   }
 
