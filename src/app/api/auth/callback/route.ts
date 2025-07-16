@@ -58,14 +58,14 @@ export async function GET(request: NextRequest) {
     session.refreshToken = data.refresh_token;
     session.isLoggedIn = true;
     
-    // We will set profileComplete to false by default.
-    // The user will be redirected to a creation page to complete it.
-    session.profileComplete = session.profileComplete || false;
+    // This logic ensures returning users are not asked to create a profile again.
+    // session.profileComplete will be undefined for a new session, so `|| false` sets it correctly.
+    const isProfileComplete = session.profileComplete || false;
     
     await session.save();
     
     // After login, redirect to profile creation if not complete, otherwise to generator
-    const redirectUrl = session.profileComplete ? '/generator' : '/profile/create';
+    const redirectUrl = isProfileComplete ? '/generator' : '/profile/create';
 
     return NextResponse.redirect(new URL(redirectUrl, request.url));
   } catch (error) {
