@@ -16,7 +16,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'State mismatch or no code provided.' }, { status: 400 });
   }
 
-  // Clear the CSRF state cookie
   cookieStore.delete('csrfState');
 
   const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -58,16 +57,16 @@ export async function GET(request: NextRequest) {
     session.refreshToken = data.refresh_token;
     session.isLoggedIn = true;
     
-    // This logic ensures returning users are not asked to create a profile again.
-    // session.profileComplete will be undefined for a new session, so `|| false` sets it correctly.
-    const isProfileComplete = session.profileComplete || false;
+    // For a new login, profile is not yet complete.
+    // The middleware will handle redirecting to /profile/create
+    session.profileComplete = session.profileComplete || false;
     
     await session.save();
     
-    // After login, redirect to profile creation if not complete, otherwise to generator
-    const redirectUrl = isProfileComplete ? '/generator' : '/profile/create';
+    const redirectPath = session.profileComplete ? '/generator' : '/profile/create';
 
-    return NextResponse.redirect(new URL(redirectUrl, request.url).toString());
+    return NextResponse.redirect(new URL(redirectPath, request.url));
+
   } catch (error) {
     console.error('Error during token exchange:', error);
     return NextResponse.json({ error: 'Internal server error during token exchange.' }, { status: 500 });

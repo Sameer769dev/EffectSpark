@@ -4,7 +4,8 @@ import { getIronSession } from 'iron-session';
 import { sessionOptions } from './lib/session';
 import { cookies } from 'next/headers';
 
-const publicPages = [
+// Define paths that are public and don't require authentication.
+const publicPaths = [
   '/',
   '/login',
   '/about',
@@ -12,57 +13,52 @@ const publicPages = [
   '/careers',
   '/privacy',
   '/terms',
+  // API routes used for authentication should be public
+  '/api/auth/google',
+  '/api/auth/callback',
 ];
 
-const isPublicPage = (pathname: string) => {
-  return publicPages.includes(pathname);
-}
-
-const isApiRoute = (pathname: string) => {
-  return pathname.startsWith('/api/');
-}
-
-const isStaticAsset = (pathname: string) => {
-  return pathname.startsWith('/_next/') || pathname.startsWith('/static/') || /\.(png|ico|webmanifest)$/.test(pathname);
-}
+const isPublic = (path: string) => {
+  return publicPaths.includes(path);
+};
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-
-  // Allow access to public pages, API routes, and static files without checking session
-  if (isPublicPage(pathname) || isApiRoute(pathname) || isStaticAsset(pathname)) {
-    // Exception: if a logged-in user tries to visit the login page, redirect them.
-    if (pathname === '/login') {
-      const session = await getIronSession(cookies(), sessionOptions);
-      if (session.isLoggedIn) {
-        const redirectPath = session.profileComplete ? '/generator' : '/profile/create';
-        return NextResponse.redirect(new URL(redirectPath, request.url));
-      }
-    }
+  const path = request.nextUrl.pathname;
+  
+  // Allow all requests for static files and images to pass through.
+  if (path.startsWith('/_next') || path.startsWith('/static') || /\.(png|ico|webmanifest|svg|jpg)$/.test(path)) {
     return NextResponse.next();
   }
 
-  // For all other pages, we require a valid session.
   const session = await getIronSession(cookies(), sessionOptions);
   const { isLoggedIn, profileComplete } = session;
 
-  if (!isLoggedIn) {
-    const url = request.nextUrl.clone();
-    url.pathname = '/login';
-    url.searchParams.set('redirect_to', pathname);
-    return NextResponse.redirect(url);
-  }
-  
-  if (!profileComplete) {
-    if (pathname !== '/profile/create') {
-      const url = request.nextUrl.clone();
-      url.pathname = '/profile/create';
-      return NextResponse.redirect(url);
+  const isPublicPage = isPublic(path);
+
+  // If user is logged in
+  if (isLoggedIn) {
+    // and profile is complete...
+    if (profileComplete) {
+      // prevent them from accessing login or profile creation pages.
+      if (path === '/login' || path === '/profile/create') {
+        return NextResponse.redirect(new URL('/generator', request.url));
+      }
+    } 
+    // if profile is NOT complete...
+    else {
+      // force them to the profile creation page.
+      if (path !== '/profile/create' && !path.startsWith('/api')) {
+        return NextResponse.redirect(new URL('/profile/create', request.url));
+      }
     }
-  } else { // profile is complete
-    if (pathname === '/profile/create') {
+  } 
+  // If user is NOT logged in...
+  else {
+    // and the page is not public, redirect to login.
+    if (!isPublicPage && !path.startsWith('/api/auth')) {
        const url = request.nextUrl.clone();
-       url.pathname = '/generator';
+       url.pathname = '/login';
+       url.searchParams.set('redirect_to', path);
        return NextResponse.redirect(url);
     }
   }
@@ -71,13 +67,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    '/((?!_next/image|favicon.ico).*)',
-  ],
+  // Match all paths except for the ones that are likely static assets.
+  matcher: '/((?!_next/image|favicon.ico).*)',
 };

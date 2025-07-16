@@ -20,7 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { AtSign, History, User, Rss, Loader2, Edit } from 'lucide-react';
+import { AtSign, History, User, Rss, Loader2, Edit, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
@@ -54,11 +54,9 @@ export default function ProfilePage() {
                             router.replace('/profile/create');
                         }
                     } else {
-                        // This case should be handled by middleware, but as a fallback:
                         router.replace('/login');
                     }
                 } else {
-                   // This case should be handled by middleware, but as a fallback:
                    router.replace('/login');
                 }
             } catch (error) {
@@ -107,21 +105,21 @@ export default function ProfilePage() {
               <CardDescription>@{profile.username}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-               <div className="flex items-center gap-3">
+               <div className="flex items-center gap-3 p-2 rounded-md bg-secondary/50">
                   <User className="text-muted-foreground" />
-                  <span className='font-medium'>{profile.display_name}</span>
+                  <span className='font-medium'>{profile.creatorStyle || 'Not Set'}</span>
                </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 p-2 rounded-md bg-secondary/50">
                   <AtSign className="text-muted-foreground" />
-                   <span className='text-muted-foreground'>@{profile.username}</span>
+                   <span className='text-muted-foreground'>{profile.username}</span>
                </div>
             </CardContent>
               <CardFooter className="flex-col space-y-2">
                   <Button variant="outline" asChild className="w-full">
-                      <Link href="/profile/create"><Edit className="mr-2 h-4 w-4" /> Edit Profile</Link>
+                      <Link href="/profile/create"><Edit /> Edit Profile</Link>
                   </Button>
                   <Button variant="destructive" asChild className="w-full">
-                        <Link href="/api/auth/logout">Unlink Account</Link>
+                        <Link href="/api/auth/logout"><LogOut /> Sign Out</Link>
                   </Button>
               </CardFooter>
           </Card>
@@ -167,7 +165,7 @@ export default function ProfilePage() {
                   <Rss className="mx-auto h-12 w-12 text-muted-foreground" />
                   <h3 className="mt-4 text-lg font-medium">No Effect History</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Link your TikTok account to see your effect history here.
+                    Connect your account to an external service to see your effect history here.
                   </p>
                 </div>
               )}
