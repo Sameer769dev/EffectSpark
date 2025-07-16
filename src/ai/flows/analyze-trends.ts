@@ -9,6 +9,12 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import { getTopCreatorsFromTikTok } from '@/ai/tools/get-top-creators';
+import type { CreatorData } from './fetch-top-creators';
+
+const TrendAnalysisInputSchema = z.object({
+  creators: z.array(z.any()).describe('A list of top TikTok Effect House creators.'),
+});
 
 const TrendAnalysisOutputSchema = z.object({
   trends: z.array(
@@ -29,10 +35,18 @@ export async function analyzeTrends(): Promise<TrendAnalysisOutput> {
 
 const analyzeTrendsPrompt = ai.definePrompt({
   name: 'analyzeTrendsPrompt',
+  input: { schema: TrendAnalysisInputSchema },
   output: { schema: TrendAnalysisOutputSchema },
   prompt: `You are a TikTok Trend Analysis expert for Effect House creators. Your task is to identify and analyze the top 3-5 emerging trends on TikTok right now.
 
-For each trend, provide:
+Use the following list of top creators as a primary source of information. Analyze what these successful creators are making to infer what is currently trending.
+
+## Top Creators
+{{#each creators}}
+- **{{name}}**: {{followers}} followers, {{likes}} likes, {{effects}} effects.
+{{/each}}
+
+For each trend you identify from this data and your general knowledge, provide:
 1.  A clear name for the trend.
 2.  The category (e.g., "AR Effect", "Sound", "Template", "Challenge").
 3.  A concise description.
@@ -49,12 +63,14 @@ const analyzeTrendsFlow = ai.defineFlow(
   },
   async () => {
     try {
-      const { output } = await analyzeTrendsPrompt();
+      const creators = await getTopCreatorsFromTikTok();
+      const { output } = await analyzeTrendsPrompt({ creators });
       return output!;
     } catch (error: any) {
       if (error.status === 503 || (error.cause as any)?.status === 503) {
         console.warn('Primary model overloaded, switching to fallback.');
-        const { output } = await analyzeTrendsPrompt({}, { model: 'googleai/gemini-1.5-flash-latest' });
+        const creators = await getTopCreatorsFromTikTok();
+        const { output } = await analyzeTrendsPrompt({ creators }, { model: 'googleai/gemini-1.5-flash-latest' });
         return output!;
       }
       throw error;
