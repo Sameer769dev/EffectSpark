@@ -84,25 +84,6 @@ function GeneratorContent() {
     form.setValue('prompt', selectedPrompt);
   };
   
-  useEffect(() => {
-      const prompt = searchParams.get('trendingStyles');
-      const category = searchParams.get('category');
-      const theme = searchParams.get('theme');
-      
-      if (prompt) {
-          form.setValue('prompt', prompt);
-          form.setValue('category', category || '');
-          form.setValue('theme', theme || '');
-          // Automatically submit form if params are present
-          handleSubmit({
-              prompt,
-              category: category || undefined,
-              theme: theme || undefined,
-          });
-      }
-  }, [searchParams, form]);
-
-
   const handleSubmit = async (values: FormValues) => {
     setIsLoading(true);
     setIdeas([]);
@@ -136,6 +117,23 @@ function GeneratorContent() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const prompt = searchParams.get('trendingStyles');
+    const category = searchParams.get('category');
+    const theme = searchParams.get('theme');
+
+    if (prompt) {
+      const newValues = {
+        prompt: prompt,
+        category: category || '',
+        theme: theme || '',
+      };
+      form.reset(newValues);
+      handleSubmit(newValues);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   return (
     <div className="space-y-8">
@@ -181,7 +179,7 @@ function GeneratorContent() {
                         render={({ field }) => (
                         <FormItem>
                             <FormLabel>Effect Type</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                            <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value || ''}>
                             <FormControl>
                                 <SelectTrigger>
                                 <SelectValue placeholder="Select a type" />
@@ -202,7 +200,7 @@ function GeneratorContent() {
                         render={({ field }) => (
                         <FormItem>
                             <FormLabel>Topic</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                            <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value || ''}>
                             <FormControl>
                                 <SelectTrigger>
                                 <SelectValue placeholder="Select a topic" />
@@ -258,7 +256,7 @@ function GeneratorContent() {
 
 export default function GeneratorPage() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="flex items-center justify-center h-full"><Loader2 className="h-16 w-16 animate-spin text-primary" /></div>}>
             <GeneratorContent />
         </Suspense>
     )

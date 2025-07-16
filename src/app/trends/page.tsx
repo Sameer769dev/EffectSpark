@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import {
   analyzeTrends,
   type TrendAnalysisOutput,
@@ -10,11 +11,12 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, TrendingUp, WandSparkles } from 'lucide-react';
+import { ArrowRight, Loader2, TrendingUp, Wand2, WandSparkles } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 export default function TrendsPage() {
@@ -42,6 +44,7 @@ export default function TrendsPage() {
 
   useEffect(() => {
     fetchTrends();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -114,6 +117,13 @@ export default function TrendsPage() {
                   </p>
                 </div>
               </CardContent>
+              <CardFooter>
+                 <Button asChild>
+                    <Link href={`/generator?trendingStyles=${encodeURIComponent(trend.name)}&category=${encodeURIComponent(trend.category)}`}>
+                        <Wand2 /> Spark Ideas from this Trend <ArrowRight />
+                    </Link>
+                 </Button>
+              </CardFooter>
             </Card>
           ))}
         </div>
