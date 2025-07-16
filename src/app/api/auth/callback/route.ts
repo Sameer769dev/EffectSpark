@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
     
     // A new login does not mean the profile is complete yet.
     // The profile is considered complete only when app-specific info is saved.
-    // We check if creatorStyle and displayName (app-specific) are present.
+    // We check if creatorStyle and a specific displayName are present.
     session.profileComplete = !!(session.userProfile?.creatorStyle && session.userProfile?.display_name);
     
     await session.save();
@@ -93,3 +93,4 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Internal server error during authentication.' }, { status: 500 });
   }
 }
+

@@ -11,15 +11,10 @@ export async function GET() {
     return NextResponse.json({ isLoggedIn: false }, { status: 401 });
   }
 
-  // If access token has expired, a robust app would use the refresh token here.
-  // For this example, we just check if the session exists.
-
-  // The full profile is now stored in the session, so we can just return it.
-  // This avoids making a new call to Google on every page load.
+  // The full profile is stored in the session, so we can just return it.
   const fullProfile = {
       ...session.userProfile,
-      // Ensure display_name and avatar_url are consistent for the client
-      display_name: session.userProfile?.displayName || session.userProfile?.display_name,
+      display_name: session.userProfile?.display_name,
       avatar_url: session.userProfile?.avatar_url,
       username: session.userProfile?.username,
   };
