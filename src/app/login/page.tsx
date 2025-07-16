@@ -34,10 +34,10 @@ export default function LoginPage() {
                 </CardHeader>
                 <CardContent>
                     <Button asChild className="w-full">
-                        <Link href="/api/auth/google">
+                        <a href="/api/auth/google">
                             <GoogleIcon className="mr-2 h-5 w-5" />
                             <span>Continue with Google</span>
-                        </Link>
+                        </a>
                     </Button>
                 </CardContent>
                  <CardFooter>
