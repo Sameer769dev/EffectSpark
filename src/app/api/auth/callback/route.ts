@@ -13,6 +13,7 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get('code');
 
   if (state !== storedState || !code) {
+    console.error('State mismatch or no code provided.');
     return NextResponse.json({ error: 'State mismatch or no code provided.' }, { status: 400 });
   }
 
@@ -57,11 +58,12 @@ export async function GET(request: NextRequest) {
     session.refreshToken = data.refresh_token;
     session.isLoggedIn = true;
     
-    // For a new login, profile is not yet complete.
-    // The middleware will handle redirecting to /profile/create
-    session.profileComplete = session.profileComplete || false;
+    // For a new login, we assume the profile is not yet complete.
+    // The middleware will handle redirecting to /profile/create if this is not updated.
+    // We check if it exists to preserve the state for returning users.
+    session.profileComplete = session.profileComplete || false; 
     
-    await session.save();
+    await session.save(); // This is the critical step to save the session cookie.
     
     const redirectPath = session.profileComplete ? '/generator' : '/profile/create';
 

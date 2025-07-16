@@ -10,18 +10,17 @@ export const sessionOptions: IronSessionOptions = {
 };
 
 // This is the shape of the data that will be stored in the session.
-type AppSession = {
-  isLoggedIn?: boolean;
-  accessToken?: string;
-  refreshToken?: string;
-  profileComplete?: boolean;
-  userProfile?: {
-    displayName: string;
-    creatorStyle: string;
-    interests: string;
-  };
-};
-
+// We need to declare this to extend the IronSessionData interface.
 declare module 'iron-session' {
-  interface IronSessionData extends AppSession {}
+  interface IronSessionData {
+    isLoggedIn?: boolean;
+    accessToken?: string;
+    refreshToken?: string;
+    profileComplete?: boolean;
+    userProfile?: {
+      displayName: string;
+      creatorStyle: string;
+      interests: string;
+    };
+  }
 }
