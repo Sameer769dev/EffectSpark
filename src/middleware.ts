@@ -13,20 +13,21 @@ const publicPaths = [
   '/careers',
   '/privacy',
   '/terms',
-  // API routes used for authentication should be public
-  '/api/auth/google',
-  '/api/auth/callback',
 ];
 
 const isPublic = (path: string) => {
-  return publicPaths.includes(path);
+  // Allow root page and any other public paths
+  if (publicPaths.includes(path)) {
+    return true;
+  }
+  return false;
 };
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   
-  // Allow all requests for static files and images to pass through.
-  if (path.startsWith('/_next') || path.startsWith('/static') || /\.(png|ico|webmanifest|svg|jpg)$/.test(path)) {
+  // Allow all requests for static files, images, and API routes to pass through.
+  if (path.startsWith('/_next') || path.startsWith('/static') || path.startsWith('/api/') || /\.(png|ico|webmanifest|svg|jpg)$/.test(path)) {
     return NextResponse.next();
   }
 
@@ -35,31 +36,29 @@ export async function middleware(request: NextRequest) {
 
   const isPublicPage = isPublic(path);
 
+  // If user is not logged in and trying to access a protected page
+  if (!isLoggedIn && !isPublicPage) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+    // Preserve the original destination to redirect after login
+    url.searchParams.set('redirect_to', path);
+    return NextResponse.redirect(url);
+  }
+
   // If user is logged in
   if (isLoggedIn) {
-    // and profile is complete...
-    if (profileComplete) {
+    // and profile is not complete, force profile creation
+    if (!profileComplete) {
+      if (path !== '/profile/create') {
+        return NextResponse.redirect(new URL('/profile/create', request.url));
+      }
+    } 
+    // if profile is complete
+    else {
       // prevent them from accessing login or profile creation pages.
       if (path === '/login' || path === '/profile/create') {
         return NextResponse.redirect(new URL('/generator', request.url));
       }
-    } 
-    // if profile is NOT complete...
-    else {
-      // force them to the profile creation page.
-      if (path !== '/profile/create' && !path.startsWith('/api')) {
-        return NextResponse.redirect(new URL('/profile/create', request.url));
-      }
-    }
-  } 
-  // If user is NOT logged in...
-  else {
-    // and the page is not public, redirect to login.
-    if (!isPublicPage && !path.startsWith('/api/auth')) {
-       const url = request.nextUrl.clone();
-       url.pathname = '/login';
-       url.searchParams.set('redirect_to', path);
-       return NextResponse.redirect(url);
     }
   }
 

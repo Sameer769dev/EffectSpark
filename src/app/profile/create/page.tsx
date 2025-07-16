@@ -71,14 +71,19 @@ export default function CreateProfilePage() {
         if (res.ok) {
           const data = await res.json();
           if (data.isLoggedIn) {
+             if (data.profileComplete) {
+                // If profile is already complete, don't show this page.
+                router.replace('/generator');
+                return;
+             }
              setUser(data.user);
              form.setValue('displayName', data.user.display_name);
           } else {
-             router.push('/login');
+             router.replace('/login');
           }
         } else {
           // If we can't fetch profile, maybe session expired.
-          router.push('/login');
+          router.replace('/login');
         }
       } catch (error) {
         console.error('Failed to fetch user profile', error);
@@ -87,7 +92,7 @@ export default function CreateProfilePage() {
             title: 'Uh oh! Something went wrong.',
             description: 'Could not fetch your Google profile. Please try logging in again.',
         });
-        router.push('/login');
+        router.replace('/login');
       } finally {
         setIsLoading(false);
       }
