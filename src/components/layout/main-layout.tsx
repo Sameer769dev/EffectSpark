@@ -20,8 +20,8 @@ const contentPages = ['/about', '/contact', '/careers', '/privacy', '/terms'];
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
-  // Don't show the main nav on the landing page or login pages
-  if (pathname === '/' || pathname === '/login' || pathname === '/profile/create' || contentPages.includes(pathname)) {
+  // Don't show the main nav on the landing page or other specific pages
+  if (pathname === '/' || pathname === '/login' || pathname === '/profile/create' || contentPages.includes(pathname) || pathname === '/shared-idea') {
     return <>{children}</>;
   }
 

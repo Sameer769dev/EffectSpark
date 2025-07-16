@@ -7,7 +7,7 @@ import type { EffectIdea } from '@/types';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import { useFavorites } from '@/context/favorites-context';
-import { Heart, Lightbulb, Loader2, TrendingUp } from 'lucide-react';
+import { Heart, Lightbulb, Loader2, TrendingUp, Copy, Share2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import React from 'react';
 import { Progress } from './ui/progress';
@@ -53,10 +53,42 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
     }
   };
 
+  const handleCopyToClipboard = () => {
+    const textToCopy = `
+Title: ${idea.title}
+
+Description: ${idea.description}
+
+Implementation Hints:
+${currentHints}
+    `;
+    navigator.clipboard.writeText(textToCopy.trim());
+    toast({
+        title: 'Copied to Clipboard!',
+        description: `The details for "${idea.title}" have been copied.`
+    });
+  };
+
+  const handleShare = () => {
+    const data = btoa(JSON.stringify(idea));
+    const url = `${window.location.origin}/shared-idea?data=${data}`;
+    navigator.clipboard.writeText(url);
+    toast({
+        title: 'Share Link Copied!',
+        description: 'A link to this idea has been copied to your clipboard.'
+    });
+  };
+
+
   return (
     <Card className="flex flex-col h-full shadow-md hover:shadow-primary/20 transition-shadow duration-300 bg-card border-border hover:border-primary/50 motion-safe:animate-float">
       <CardHeader>
-        <CardTitle className="font-headline text-xl">{idea.title}</CardTitle>
+        <div className="flex justify-between items-start gap-4">
+            <CardTitle className="font-headline text-xl">{idea.title}</CardTitle>
+            <Button variant="ghost" size="icon" onClick={handleFavoriteToggle} aria-label="Toggle Favorite" className="flex-shrink-0">
+                <Heart className={`transition-colors duration-300 ${favorite ? 'text-primary fill-current' : 'text-muted-foreground'}`} />
+            </Button>
+        </div>
         <CardDescription className="text-sm">{idea.description}</CardDescription>
       </CardHeader>
       <CardContent className="flex-grow space-y-4">
@@ -78,7 +110,7 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
             <p className="text-xs text-muted-foreground whitespace-pre-wrap font-mono bg-muted/30 p-3 rounded-md">{currentHints}</p>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between items-center gap-2 pt-4 border-t mt-auto">
+      <CardFooter className="flex-wrap justify-between items-center gap-2 pt-4 border-t mt-auto">
         <Button variant="ghost" size="sm" onClick={handleGetMoreHints} disabled={isGettingHints} className="text-primary hover:text-primary hover:bg-primary/10">
           {isGettingHints ? (
             <>
@@ -92,9 +124,14 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
             </>
           )}
         </Button>
-        <Button variant="ghost" size="icon" onClick={handleFavoriteToggle} aria-label="Toggle Favorite">
-          <Heart className={`transition-colors duration-300 ${favorite ? 'text-primary fill-current' : 'text-muted-foreground'}`} />
-        </Button>
+        <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon" onClick={handleCopyToClipboard} aria-label="Copy Idea">
+                <Copy className="text-muted-foreground" />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={handleShare} aria-label="Share Idea">
+                <Share2 className="text-muted-foreground" />
+            </Button>
+        </div>
       </CardFooter>
     </Card>
   );

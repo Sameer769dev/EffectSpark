@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
   const session = await getIronSession(cookies(), sessionOptions);
   const { isLoggedIn, profileComplete } = session;
 
-  const isPublicPath = path === '/' || path === '/login';
+  const isPublicPath = path === '/' || path === '/login' || path.startsWith('/shared-idea');
 
   // If on a public path, allow access
   if (isPublicPath) {
