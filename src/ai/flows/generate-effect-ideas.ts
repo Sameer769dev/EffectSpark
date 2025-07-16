@@ -12,21 +12,17 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GenerateEffectIdeasInputSchema = z.object({
-  trendingStyles: z
+  prompt: z
     .string()
-    .describe('A description of current trending TikTok effect styles.'),
+    .describe('A user-provided prompt or keywords for the kind of effects they want to see.'),
   category: z
     .string()
     .optional()
-    .describe('The category of effect ideas to generate (e.g., AR, funny, beauty).'),
+    .describe('The selected category of effect ideas to generate (e.g., "AR", "Funny", "Beauty"). This is the Effect Type.'),
   theme: z
     .string()
     .optional()
-    .describe('The theme of effect ideas to generate (e.g., holidays, music, challenges).'),
-  creativeConstraints: z
-    .string()
-    .optional()
-    .describe('Specific creative constraints for the effect ideas (e.g., "must use face mesh only").'),
+    .describe('The selected theme of effect ideas to generate (e.g., "Holidays", "Music", "Challenges"). This is the Topic.'),
 });
 
 export type GenerateEffectIdeasInput = z.infer<typeof GenerateEffectIdeasInputSchema>;
@@ -34,11 +30,11 @@ export type GenerateEffectIdeasInput = z.infer<typeof GenerateEffectIdeasInputSc
 const GenerateEffectIdeasOutputSchema = z.object({
   effectIdeas: z.array(
     z.object({
-      title: z.string().describe('The title of the effect idea.'),
-      description: z.string().describe('A detailed description of the effect idea.'),
-      implementationHints: z.string().describe('Basic implementation suggestions for the effect.'),
+      title: z.string().describe('The title of the effect idea. Should be catchy and descriptive.'),
+      description: z.string().describe('A detailed, one-paragraph description of the effect, explaining what it does and how a user would interact with it.'),
+      implementationHints: z.string().describe('A few bullet points with basic implementation suggestions or starting points for building this in Effect House.'),
     })
-  ).describe('A list of novel TikTok effect ideas.'),
+  ).describe('A list of 3-5 novel TikTok effect ideas.'),
 });
 
 export type GenerateEffectIdeasOutput = z.infer<typeof GenerateEffectIdeasOutputSchema>;
@@ -51,25 +47,25 @@ const generateEffectIdeasPrompt = ai.definePrompt({
   name: 'generateEffectIdeasPrompt',
   input: {schema: GenerateEffectIdeasInputSchema},
   output: {schema: GenerateEffectIdeasOutputSchema},
-  prompt: `You are a creative consultant for TikTok effect creators. Your goal is to generate novel and engaging effect ideas based on current trends.
+  prompt: `You are a creative consultant for TikTok effect creators. Your goal is to generate 3 to 5 novel and engaging effect ideas based on the user's request.
 
-  Analyze the following trending styles and generate a list of effect ideas. Each effect idea should include a title, a detailed description, and basic implementation suggestions.
+The user has provided the following input:
+- Prompt/Keywords: "{{{prompt}}}"
+{{#if category}}
+- Effect Type (Category): "{{{category}}}"
+{{/if}}
+{{#if theme}}
+- Topic (Theme): "{{{theme}}}"
+{{/if}}
 
-  Trending Styles: {{{trendingStyles}}}
+Your Task:
+Generate a list of 3-5 distinct effect ideas that are highly relevant to the user's selections.
+For each idea, provide:
+1.  **A catchy and descriptive title.**
+2.  **A detailed, one-paragraph description** of the effect. Explain the concept, what the user sees, and how they interact with it.
+3.  **A few bullet points of implementation hints.** These should be actionable starting points for an Effect House creator (e.g., "Use a Head Tracker to attach the crown," "Trigger the particle system on mouth open," "Use the segmentation feature to change the background.").
 
-  {{#if category}}
-  Category: {{{category}}}
-  {{/if}}
-
-  {{#if theme}}
-  Theme: {{{theme}}}
-  {{/if}}
-
-  {{#if creativeConstraints}}
-  Creative Constraints: You MUST adhere to the following constraints: {{{creativeConstraints}}}
-  {{/if}}
-
-  Ensure that the generated effect ideas are diverse and suitable for a wide range of TikTok users. Focus on originality and potential virality.
+Focus on originality and virality potential. Ensure the ideas are creative and align perfectly with the requested Type and Topic.
   `,
 });
 

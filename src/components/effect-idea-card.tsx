@@ -99,5 +99,3 @@ export function EffectIdeaCard({ idea }: EffectIdeaCardProps) {
     </Card>
   );
 }
-
-    
