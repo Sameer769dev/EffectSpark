@@ -18,12 +18,11 @@ declare module 'iron-session' {
     refreshToken?: string;
     profileComplete?: boolean;
     userProfile?: {
-      displayName: string;
-      creatorStyle: string;
-      interests: string;
-      // Adding Google profile info directly here for consistency
       avatar_url?: string;
+      display_name?: string;
       username?: string; // This will store the email
+      creatorStyle?: string;
+      interests?: string;
     };
   }
 }

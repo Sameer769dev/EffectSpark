@@ -8,6 +8,6 @@ export async function GET(request: NextRequest) {
   const session = await getIronSession(cookies(), sessionOptions);
   session.destroy();
   const url = request.nextUrl.clone();
-  url.pathname = '/profile';
+  url.pathname = '/login';
   return NextResponse.redirect(url);
 }

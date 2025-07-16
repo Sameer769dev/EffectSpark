@@ -76,14 +76,13 @@ export default function CreateProfilePage() {
              }
              setUser(data.user);
              // Populate form with data from session
-             form.setValue('displayName', data.user.display_name || data.user.displayName || '');
+             form.setValue('displayName', data.user.display_name || '');
              form.setValue('creatorStyle', data.user.creatorStyle || '');
              form.setValue('interests', data.user.interests || '');
           } else {
              router.replace('/login');
           }
         } else {
-          // If we can't fetch profile, maybe session expired.
           router.replace('/login');
         }
       } catch (error) {
@@ -130,7 +129,7 @@ export default function CreateProfilePage() {
   
   if (isLoading || !user) {
       return (
-          <div className="flex justify-center items-center min-h-screen">
+          <div className="flex justify-center items-center min-h-[80vh]">
               <Loader2 className="h-16 w-16 animate-spin text-primary" />
           </div>
       )

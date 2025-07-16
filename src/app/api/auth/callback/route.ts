@@ -53,7 +53,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Failed to fetch access token', details: tokenData }, { status: 500 });
     }
 
-    // Now fetch user info
     const userinfoUrl = 'https://www.googleapis.com/oauth2/v3/userinfo';
     const userinfoResponse = await fetch(userinfoUrl, {
       headers: { 'Authorization': `Bearer ${tokenData.access_token}` },
@@ -71,10 +70,6 @@ export async function GET(request: NextRequest) {
     session.accessToken = tokenData.access_token;
     session.refreshToken = tokenData.refresh_token;
     
-    // Check if the user already has a profile in our system (e.g., from a database)
-    // For this example, we'll assume a new login requires profile setup unless session says otherwise.
-    // A robust implementation would query a DB with userInfo.sub or userInfo.email
-    
     // We store basic Google info in the session to create the profile page
     session.userProfile = {
       ...(session.userProfile || {}), // Preserve existing app-specific profile data if any
@@ -83,8 +78,10 @@ export async function GET(request: NextRequest) {
       username: userInfo.email,
     };
     
-    // If profileComplete is not explicitly true, it's considered incomplete.
-    session.profileComplete = session.userProfile?.creatorStyle && session.userProfile?.displayName ? true : false;
+    // A new login does not mean the profile is complete yet.
+    // The profile is considered complete only when app-specific info is saved.
+    // We check if creatorStyle and displayName (app-specific) are present.
+    session.profileComplete = !!(session.userProfile?.creatorStyle && session.userProfile?.display_name);
     
     await session.save();
     

@@ -114,7 +114,7 @@ export default function ProfilePage() {
                       <Link href="/profile/create"><Edit /> Edit Profile</Link>
                   </Button>
                   <Button variant="destructive" asChild className="w-full">
-                        <Link href="/api/auth/logout"><LogOut /> Sign Out</Link>
+                        <a href="/api/auth/logout"><LogOut /> Sign Out</a>
                   </Button>
               </CardFooter>
           </Card>
