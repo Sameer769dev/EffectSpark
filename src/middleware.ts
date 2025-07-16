@@ -17,7 +17,7 @@ const publicPages = [
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Allow access to public files and API routes
+  // Allow access to API routes, static files, and explicit public pages
   if (
     pathname.startsWith('/api/') || 
     pathname.startsWith('/_next/') || 
@@ -71,12 +71,13 @@ export const config = {
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
+     * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - manifest.webmanifest
      * - png images
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.png$|manifest.webmanifest).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.png$|manifest.webmanifest).*)',
   ],
 };
