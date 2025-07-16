@@ -84,7 +84,7 @@ export async function GET(request: NextRequest) {
     };
     
     // If profileComplete is not explicitly true, it's considered incomplete.
-    session.profileComplete = session.profileComplete || false; 
+    session.profileComplete = session.userProfile?.creatorStyle && session.userProfile?.displayName ? true : false;
     
     await session.save();
     

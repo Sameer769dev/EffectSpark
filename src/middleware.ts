@@ -18,25 +18,20 @@ const publicPaths = [
 ];
 
 const isPublic = (path: string) => {
-  if (publicPaths.includes(path)) {
-    return true;
-  }
-  // Allow INTERNAL API routes to be accessed without auth checks in middleware,
-  // as they will be called by pages which are already protected.
-  // The logout route is an exception as it's called directly.
-  if (path.startsWith('/api/') && path !== '/api/auth/logout') {
-      return true;
-  }
-  // Allow static assets and image optimization routes
-  if (path.startsWith('/_next') || /\.(png|ico|webmanifest|svg|jpg|jpeg)$/.test(path)) {
-    return true;
-  }
-  return false;
+  return (
+    publicPaths.includes(path) ||
+    path.startsWith('/api/') // Exclude all API routes from middleware checks
+  );
 };
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   
+  // Ignore Next.js internal paths and public files
+  if (path.startsWith('/_next') || path.startsWith('/static') || /\.(.*)$/.test(path)) {
+    return NextResponse.next();
+  }
+
   // If the path is public, no action is needed.
   if (isPublic(path)) {
     return NextResponse.next();
@@ -47,18 +42,12 @@ export async function middleware(request: NextRequest) {
 
   // If user is not logged in, redirect them to the login page.
   if (!isLoggedIn) {
-    // Prevent redirect loops for the login page itself.
-    if (path !== '/login') {
-      const loginUrl = new URL('/login', request.url);
-      loginUrl.searchParams.set('redirect_to', path); // Remember where the user was going.
-      return NextResponse.redirect(loginUrl);
-    }
-    return NextResponse.next();
+    const loginUrl = new URL('/login', request.url);
+    loginUrl.searchParams.set('redirect_to', path);
+    return NextResponse.redirect(loginUrl);
   }
 
-  // If user is logged in...
-  
-  // but their profile is not complete...
+  // If user is logged in but their profile is not complete...
   if (!profileComplete) {
     // and they are not already on the profile creation page, redirect them there.
     if (path !== '/profile/create') {
@@ -78,6 +67,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Match all paths except for specific static files.
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  // Match all paths except for the ones starting with `/_next` or contain a `.` (static files)
+  matcher: ['/((?!_next|.*\\..*).*)'],
 };
