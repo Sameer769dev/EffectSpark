@@ -31,7 +31,7 @@ const CreatorRowSkeleton = () => (
         </TableCell>
         <TableCell><Skeleton className="h-4 w-16" /></TableCell>
         <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-        <TableCell><Skeleton className="h-4 w-12" /></TableCell>
+      
     </TableRow>
 );
 
@@ -87,8 +87,7 @@ export default function CreatorsPage() {
                 <TableHead className="w-[50px]">Rank</TableHead>
                 <TableHead>Creator</TableHead>
                 <TableHead className="text-right">Followers</TableHead>
-                <TableHead className="text-right">Likes</TableHead>
-                <TableHead className="text-right">Effects</TableHead>
+                <TableHead className="text-right">Effect Uses</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -115,13 +114,12 @@ export default function CreatorsPage() {
                     </TableCell>
                     <TableCell className="text-right font-mono">{creator.followers}</TableCell>
                     <TableCell className="text-right font-mono">{creator.likes}</TableCell>
-                    <TableCell className="text-right font-mono">{creator.effects}</TableCell>
                   </TableRow>
                 ))
               )}
                {!isLoading && creators.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={5} className="h-24 text-center">
+                    <TableCell colSpan={4} className="h-24 text-center">
                       Could not load creator data. The page structure on TikTok may have changed.
                     </TableCell>
                   </TableRow>

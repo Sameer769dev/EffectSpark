@@ -34,25 +34,37 @@ export const getTopCreatorsFromTikTok = ai.defineTool(
 
             const creators: CreatorData[] = [];
 
-            $('div[class*="TopCreatorCard-cardContainer"]').each((i, el) => {
-                const rank = parseInt($(el).find('div[class*="TopCreatorCard-rankNumber"]').text().trim(), 10);
-                const avatar = $(el).find('img[class*="TopCreatorCard-avatar"]').attr('src') || 'https://placehold.co/40x40.png';
-                const name = $(el).find('p[class*="TopCreatorCard-creatorName"]').text().trim();
+            // The class names seem to be obfuscated, so we rely on the structure.
+            // This selector targets the main container for each creator card.
+            $('div.contents > div.relative').each((i, el) => {
+                // Within each card, find the creator's name.
+                const name = $(el).find('div.flex > p.font-bold').text().trim();
                 
+                // If a name isn't found, it's likely not a creator card, so we skip it.
+                if (!name) return;
+
+                // Find the avatar image url.
+                const avatar = $(el).find('img.rounded-full').attr('src') || 'https://placehold.co/40x40.png';
+
+                // Find the stats. They are now 'effect uses' and 'followers'.
                 const stats: string[] = [];
-                $(el).find('div[class*="TopCreatorCard-statValue"]').each((idx, statEl) => {
+                $(el).find('div.flex.gap-4 > p').each((idx, statEl) => {
                     stats.push($(statEl).text().trim());
                 });
 
-                const [followers, likes, effectsStr] = stats;
+                // The stats seem to be "XX effect uses" and "XX followers". We will parse them.
+                const likes = stats.find(s => s.includes('effect uses'))?.replace(' effect uses', '') || '0';
+                const followers = stats.find(s => s.includes('followers'))?.replace(' followers', '') || '0';
 
+                // We don't have an explicit effects count or rank in this new structure.
+                // We'll use the loop index for rank and default effects to 0.
                 const creator: CreatorData = {
-                    rank,
+                    rank: i + 1,
                     name,
                     avatar: avatar.startsWith('http') ? avatar : `https:${avatar}`,
-                    followers: normalizeNumber(followers || '0'),
-                    likes: normalizeNumber(likes || '0'),
-                    effects: parseInt(effectsStr || '0', 10),
+                    followers: normalizeNumber(followers),
+                    likes: normalizeNumber(likes), // Re-purposing 'likes' field for 'effect uses'
+                    effects: 0, // Effects count is not available in the new UI
                     hint: 'creator avatar'
                 };
                 creators.push(creator);
@@ -62,7 +74,6 @@ export const getTopCreatorsFromTikTok = ai.defineTool(
 
         } catch (error) {
             console.error('Error scraping TikTok creators:', error);
-            // Return an empty array or throw the error, depending on desired error handling
             return [];
         }
     }
