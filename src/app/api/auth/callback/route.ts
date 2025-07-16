@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
     // After login, redirect to profile creation if not complete, otherwise to generator
     const redirectUrl = isProfileComplete ? '/generator' : '/profile/create';
 
-    return NextResponse.redirect(new URL(redirectUrl, request.url));
+    return NextResponse.redirect(new URL(redirectUrl, request.url).toString());
   } catch (error) {
     console.error('Error during token exchange:', error);
     return NextResponse.json({ error: 'Internal server error during token exchange.' }, { status: 500 });

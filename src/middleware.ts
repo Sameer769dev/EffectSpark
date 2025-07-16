@@ -14,26 +14,38 @@ const publicPages = [
   '/terms',
 ];
 
+const isPublicPage = (pathname: string) => {
+  return publicPages.includes(pathname);
+}
+
+const isApiRoute = (pathname: string) => {
+  return pathname.startsWith('/api/');
+}
+
+const isStaticAsset = (pathname: string) => {
+  return pathname.startsWith('/_next/') || pathname.startsWith('/static/') || /\.(png|ico|webmanifest)$/.test(pathname);
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Allow access to API routes, static files, and explicit public pages
-  if (
-    pathname.startsWith('/api/') || 
-    pathname.startsWith('/_next/') || 
-    pathname.startsWith('/static/') || 
-    pathname.endsWith('.png') || 
-    pathname.endsWith('.ico') || 
-    pathname.endsWith('.webmanifest') ||
-    publicPages.includes(pathname)
-  ) {
+  // Allow access to public pages, API routes, and static files without checking session
+  if (isPublicPage(pathname) || isApiRoute(pathname) || isStaticAsset(pathname)) {
+    // Exception: if a logged-in user tries to visit the login page, redirect them.
+    if (pathname === '/login') {
+      const session = await getIronSession(cookies(), sessionOptions);
+      if (session.isLoggedIn) {
+        const redirectPath = session.profileComplete ? '/generator' : '/profile/create';
+        return NextResponse.redirect(new URL(redirectPath, request.url));
+      }
+    }
     return NextResponse.next();
   }
 
+  // For all other pages, we require a valid session.
   const session = await getIronSession(cookies(), sessionOptions);
   const { isLoggedIn, profileComplete } = session;
 
-  // If user is not logged in, redirect any protected page to the login page
   if (!isLoggedIn) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
@@ -41,27 +53,18 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
   
-  // If user is logged in but hasn't completed their profile,
-  // redirect them to the creation page, unless they are already there.
-  if (!profileComplete && pathname !== '/profile/create') {
-    const url = request.nextUrl.clone();
-    url.pathname = '/profile/create';
-    return NextResponse.redirect(url);
-  }
-
-  // If the user is logged in and has completed their profile, but tries to access the creation page,
-  // redirect them to the generator.
-  if (profileComplete && pathname === '/profile/create') {
-     const url = request.nextUrl.clone();
-     url.pathname = '/generator';
-     return NextResponse.redirect(url);
-  }
-
-  // If a logged-in user tries to access the login page, redirect them to the generator
-  if (isLoggedIn && pathname === '/login') {
-    const url = request.nextUrl.clone();
-    url.pathname = '/generator';
-    return NextResponse.redirect(url);
+  if (!profileComplete) {
+    if (pathname !== '/profile/create') {
+      const url = request.nextUrl.clone();
+      url.pathname = '/profile/create';
+      return NextResponse.redirect(url);
+    }
+  } else { // profile is complete
+    if (pathname === '/profile/create') {
+       const url = request.nextUrl.clone();
+       url.pathname = '/generator';
+       return NextResponse.redirect(url);
+    }
   }
 
   return NextResponse.next();
@@ -71,13 +74,10 @@ export const config = {
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
-     * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - manifest.webmanifest
-     * - png images
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.png$|manifest.webmanifest).*)',
+    '/((?!_next/image|favicon.ico).*)',
   ],
 };
